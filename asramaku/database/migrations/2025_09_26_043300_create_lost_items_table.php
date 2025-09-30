@@ -13,6 +13,14 @@ return new class extends Migration
     {
         Schema::create('lost_items', function (Blueprint $table) {
             $table->id();
+            $table->string('name'); // Nama barang
+            $table->text('description')->nullable();
+            $table->date('date_found');
+            $table->date('date_taken')->nullable();
+            $table->string('img')->nullable(); // Path gambar
+            $table->string('status'); // Misal: 'tersedia', 'diambil'
+            $table->foreignId('reporter_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null'); // User yang mengambil
             $table->timestamps();
         });
     }

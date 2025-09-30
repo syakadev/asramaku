@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('infractions', function (Blueprint $table) {
             $table->id();
-            $table->string('note');
-            $table->string('type');
-            $table->string('status');
-            $table->string('user_id');
+             $table->string('img');
+            $table->text('note')->nullable();
+            $table->enum('type', ['piket', 'kerapian dan kebersihan']); // piket, kerapian dan kebersihan
+            $table->enum('status', ['dibayar', 'belum dibayar']); // Misal: 'diproses', 'selesai'
+            $table->foreignId('reporter_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('img'); // Penilaian/skor
             $table->date('date');
             $table->enum('status', ['dilaksanakan', 'tidak dilaksanakan']);
-            $table->foreignId('dutyschedule_id')->constrained()->onDelete('cascade');
+            $table->foreignId('duty_schedule_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade'); // User yang dinilai
             $table->timestamps();        });
     }

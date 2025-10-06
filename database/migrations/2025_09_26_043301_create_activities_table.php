@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('location');
             $table->enum('type', [1, 0]); // 1 , 0
             $table->string('img')->nullable(); //documentation
-            $table->datetimes('date');
+            $table->datetime('date');
             $table->foreignId('organizer_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });

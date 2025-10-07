@@ -76,7 +76,7 @@ class InfractionController extends Controller
 
         $infraction->update($request->all());
 
-        return redirect()->route('infraction.edit')->with('success', 'Data kas asrama berhasil diubah.');
+        return redirect()->route('infraction.edit', $infraction)->with('success', 'Data pelanggaran berhasil diubah.');
     }
 
     /**
@@ -85,6 +85,6 @@ class InfractionController extends Controller
     public function destroy(Infraction $infraction)
     {
         $infraction->delete();
-        return redirect()->route('infraction.index')->with('success', 'Data kas asrama berhasil dihapus.');
+        return redirect()->route('infraction.index')->with('success', 'Data pelanggaran berhasil dihapus.');
     }
 }

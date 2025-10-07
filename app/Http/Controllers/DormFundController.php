@@ -81,7 +81,7 @@ class DormFundController extends Controller
 
         $dormfund->update($request->all());
 
-        return redirect()->route('dormfunds.edit')->with('success', 'Data kas asrama berhasil diubah.');
+        return redirect()->route('dormfunds.edit', $dormfund)->with('success', 'Data kas asrama berhasil diubah.');
     }
 
     /**

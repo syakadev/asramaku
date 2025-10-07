@@ -31,63 +31,66 @@ class DormFundController extends Controller
     {
         $request->validate([
             'title' => 'required|string',
-            'balance' => 'required|decimal',
+            'note' => 'nullable|string',
+            'balance' => 'required|decimal:0,2',
             'date' => 'required|date',
             'status' => 'required|in:pemasukan,pengeluaran',
             'user_id' => 'required|integer'
         ]);
-
-        if ($request->fails()) {
-            return view('dormfunds.create', compact($request->errors()));
-        }
 
         DormFund::create($request->all());
 
         return redirect()->route('dormfunds.index')->with('success', 'Data kas asrama berhasil ditambahkan.');
 
+
+        // backend massage
+        // // Kembalikan respons sukses yang proper
+        // return response()->json(['message' => 'Data berhasil dibuat'], 201);
     }
+
 
     /**
      * Display the specified resource.
      */
-    public function show(DormFund $dormFund)
+    public function show(DormFund $dormfund)
     {
-        return view('dormfunds.show', compact('dormFund'));
+        return view('dormfunds.show', compact('dormfund'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(DormFund $dormFund)
+    public function edit(DormFund $dormfund)
     {
-        return view('dormfunds.edit', compact('dormFund'));
+        return view('dormfunds.edit', compact('dormfund'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DormFund $dormFund)
+    public function update(Request $request, DormFund $dormfund)
     {
+
         $request->validate([
             'title' => 'required|string',
-            'balance' => 'required|decimal',
+            'balance' => 'required|decimal:0,2',
             'date' => 'required|date',
             'status' => 'required|in:pemasukan,pengeluaran',
             'user_id' => 'required|integer'
         ]);
 
-        $dormFund->update($request->all());
+        $dormfund->update($request->all());
 
-        return redirect()->route('dormfunds.index')->with('success', 'Data kas asrama berhasil diperbarui.');
+        return redirect()->route('dormfunds.edit')->with('success', 'Data kas asrama berhasil diubah.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DormFund $dormFund)
+    public function destroy(DormFund $dormfund)
     {
-        $dormFund->delete();
+        $dormfund->delete();
         return redirect()->route('dormfunds.index')->with('success', 'Data kas asrama berhasil dihapus.');
-
     }
+
 }

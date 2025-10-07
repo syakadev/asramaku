@@ -12,7 +12,8 @@ class InfractionController extends Controller
      */
     public function index()
     {
-        //
+        $infraction = Infraction::all();
+        return view('infraction.index', compact('infraction'));
     }
 
     /**
@@ -20,7 +21,7 @@ class InfractionController extends Controller
      */
     public function create()
     {
-        //
+        return  view('infraction.create');
     }
 
     /**
@@ -28,7 +29,19 @@ class InfractionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'img' => 'required|string',
+            'note' => 'nullable|string',
+            'type' => 'required|in:piket,kerapian dan kebersihan',
+            'status' => 'required|in:dibayar,belum dibayar',
+            'reporter_id' => 'required|integer',
+            'user_id' => 'required|integer'
+        ]);
+
+
+        Infraction::create($request->all());
+
+        return redirect()->route('infraction.index')->with('success', 'Data kas asrama berhasil ditambahkan.');
     }
 
     /**
@@ -36,7 +49,7 @@ class InfractionController extends Controller
      */
     public function show(Infraction $infraction)
     {
-        //
+        return view('infraction.show', compact('infraction'));
     }
 
     /**
@@ -44,7 +57,7 @@ class InfractionController extends Controller
      */
     public function edit(Infraction $infraction)
     {
-        //
+        return view('infraction.edit', compact('infraction'));
     }
 
     /**
@@ -52,7 +65,18 @@ class InfractionController extends Controller
      */
     public function update(Request $request, Infraction $infraction)
     {
-        //
+        $request->validate([
+            'img' => 'required|string',
+            'note' => 'nullable|string',
+            'type' => 'required|in:piket,kerapian dan kebersihan',
+            'status' => 'required|in:dibayar,belum dibayar',
+            'reporter_id' => 'required|integer',
+            'user_id' => 'required|integer'
+        ]);
+
+        $infraction->update($request->all());
+
+        return redirect()->route('infraction.edit')->with('success', 'Data kas asrama berhasil diubah.');
     }
 
     /**
@@ -60,6 +84,7 @@ class InfractionController extends Controller
      */
     public function destroy(Infraction $infraction)
     {
-        //
+        $infraction->delete();
+        return redirect()->route('infraction.index')->with('success', 'Data kas asrama berhasil dihapus.');
     }
 }

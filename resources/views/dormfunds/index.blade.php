@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+@section('page-title', 'Dashboard Kas Asrama')
+@section('breadcrumb', 'Dashboard Kas Asrama')
+
+
 <div class="container mx-auto px-4 py-6">
     @if(session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
@@ -15,7 +19,7 @@
         </a>
     </div>
 
-    <div class="bg-white rounded-lg shadow overflow-hidden">
+    <div class="hidden md:block bg-white rounded-lg shadow overflow-hidden"> {{-- Desktop View --}}
         <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
                 <tr>
@@ -55,6 +59,31 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:hidden"> {{-- Mobile Card View --}}
+        @foreach($dormFunds as $dormFund)
+        <div class="bg-white rounded-lg shadow p-4">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="text-lg font-semibold text-gray-800">{{ $dormFund->title }}</h3>
+                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
+                    {{ $dormFund->status == 'pemasukan' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                    {{ $dormFund->status == 'pemasukan' ? 'Pemasukan' : 'Pengeluaran' }}
+                </span>
+            </div>
+            <p class="text-sm text-gray-600 mb-2">Tanggal: {{ $dormFund->date }}</p>
+            <p class="text-md font-bold text-gray-900 mb-4">Saldo: Rp {{ number_format($dormFund->balance, 2, ',', '.') }}</p>
+            <div class="flex space-x-2">
+                <a href="{{ route('dormfunds.show', $dormFund) }}" class="text-blue-600 hover:text-blue-900 text-sm">Lihat</a>
+                <a href="{{ route('dormfunds.edit', $dormFund) }}" class="text-green-600 hover:text-green-900 text-sm">Edit</a>
+                <form action="{{ route('dormfunds.destroy', $dormFund) }}" method="POST" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-red-600 hover:text-red-900 text-sm" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
+                </form>
+            </div>
+        </div>
+        @endforeach
     </div>
 </div>
 @endsection

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('note')->nullable();
-            $table->decimal('balance', 15, 2)->default(0);
+            $table->decimal('amount', 15, 2)->default(0);
             $table->date('date')->nullable();
             $table->enum('status', ['pemasukan', 'pengeluaran']); // Misal: 'pemasukan', 'pengeluaran'
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

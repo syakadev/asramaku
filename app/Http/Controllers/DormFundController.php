@@ -32,7 +32,7 @@ class DormFundController extends Controller
         $request->validate([
             'title' => 'required|string',
             'note' => 'nullable|string',
-            'balance' => 'required|decimal:0,2',
+            'amount' => 'required|decimal:0,2',
             'date' => 'required|date',
             'status' => 'required|in:pemasukan,pengeluaran',
             'user_id' => 'required|integer'
@@ -73,7 +73,7 @@ class DormFundController extends Controller
 
         $request->validate([
             'title' => 'required|string',
-            'balance' => 'required|decimal:0,2',
+            'amount' => 'required|decimal:0,2',
             'date' => 'required|date',
             'status' => 'required|in:pemasukan,pengeluaran',
             'user_id' => 'required|integer'

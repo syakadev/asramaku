@@ -13,7 +13,7 @@ class InfractionController extends Controller
     public function index()
     {
         $infraction = Infraction::all();
-        return view('infraction.index', compact('infraction'));
+        return view('infractions.index', compact('infraction'));
     }
 
     /**
@@ -21,7 +21,7 @@ class InfractionController extends Controller
      */
     public function create()
     {
-        return  view('infraction.create');
+        return  view('infractions.create');
     }
 
     /**
@@ -41,7 +41,7 @@ class InfractionController extends Controller
 
         Infraction::create($request->all());
 
-        return redirect()->route('infraction.index')->with('success', 'Data kas asrama berhasil ditambahkan.');
+        return redirect()->route('infractions.index')->with('success', 'Data kas asrama berhasil ditambahkan.');
     }
 
     /**
@@ -49,7 +49,7 @@ class InfractionController extends Controller
      */
     public function show(Infraction $infraction)
     {
-        return view('infraction.show', compact('infraction'));
+        return view('infractions.show', compact('infraction'));
     }
 
     /**
@@ -57,7 +57,7 @@ class InfractionController extends Controller
      */
     public function edit(Infraction $infraction)
     {
-        return view('infraction.edit', compact('infraction'));
+        return view('infractions.edit', compact('infraction'));
     }
 
     /**
@@ -76,7 +76,7 @@ class InfractionController extends Controller
 
         $infraction->update($request->all());
 
-        return redirect()->route('infraction.edit')->with('success', 'Data kas asrama berhasil diubah.');
+        return redirect()->route('infractions.edit', $infraction)->with('success', 'Data pelanggaran berhasil diubah.');
     }
 
     /**
@@ -85,6 +85,6 @@ class InfractionController extends Controller
     public function destroy(Infraction $infraction)
     {
         $infraction->delete();
-        return redirect()->route('infraction.index')->with('success', 'Data kas asrama berhasil dihapus.');
+        return redirect()->route('infractions.index')->with('success', 'Data pelanggaran berhasil dihapus.');
     }
 }

@@ -18,7 +18,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Saldo</label>
-                <p class="text-lg font-semibold {{ $dormfund->status == 'pemasukan' ? 'text-green-600' : 'text-red-600' }}">
+                <p class="text-lg font-semibold {{ $dormfund->status == 'pemasukan' ? 'text-blue-600' : 'text-red-600' }}">
                     Rp {{ number_format($dormfund->balance, 2, ',', '.') }}
                 </p>
             </div>
@@ -31,7 +31,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                 <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full
-                    {{ $dormfund->status == 'pemasukan' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                    {{ $dormfund->status == 'pemasukan' ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800' }}">
                     {{ $dormfund->status == 'pemasukan' ? 'Pemasukan' : 'Pengeluaran' }}
                 </span>
             </div>

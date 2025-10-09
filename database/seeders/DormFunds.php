@@ -16,7 +16,7 @@ class DormFunds extends Seeder
     {
         DormFund::create([
             'title' => 'Pemasukan Kas Bulanan',
-            'balance' => 100000.00,
+            'amount' => 100000.00,
             'date' => '2024-01-01',
             'status' => 'pemasukan',
             'user_id' => 1,
@@ -24,7 +24,7 @@ class DormFunds extends Seeder
 
         DormFund::create([
             'title' => 'Pembelian Alat Kebersihan',
-            'balance' => 50000.00,
+            'amount' => 50000.00,
             'date' => '2024-01-15',
             'status' => 'pengeluaran',
             'user_id' => 1,
@@ -32,7 +32,7 @@ class DormFunds extends Seeder
 
         DormFund::create([
             'title' => 'Pemasukan Donasi',
-            'balance' => 200000.00,
+            'amount' => 200000.00,
             'date' => '2024-02-01',
             'status' => 'pemasukan',
             'user_id' => 1,

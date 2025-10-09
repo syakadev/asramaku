@@ -12,8 +12,8 @@ class InfractionController extends Controller
      */
     public function index()
     {
-        $infraction = Infraction::all();
-        return view('infractions.index', compact('infraction'));
+        $infractions = Infraction::all();
+        return view('infractions.index', compact('infractions'));
     }
 
     /**
@@ -29,18 +29,22 @@ class InfractionController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'img' => 'required|string',
+        // 1. Validasi input
+        $validatedData = $request->validate([
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'note' => 'nullable|string',
             'type' => 'required|in:piket,kerapian dan kebersihan',
-            'status' => 'required|in:dibayar,belum dibayar',
             'reporter_id' => 'required|integer',
             'user_id' => 'required|integer'
         ]);
 
+        // 2. Proses upload gambar dan dapatkan path-nya
+        if ($request->hasFile('img')) {
+            $path = $request->file('img')->store('images', 'public');
+            $validatedData['img'] = basename($path);
+        }
 
-        Infraction::create($request->all());
-
+        Infraction::create($validatedData);
         return redirect()->route('infractions.index')->with('success', 'Data kas asrama berhasil ditambahkan.');
     }
 
@@ -65,18 +69,30 @@ class InfractionController extends Controller
      */
     public function update(Request $request, Infraction $infraction)
     {
-        $request->validate([
-            'img' => 'required|string',
+        $validatedData = $request->validate([
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'note' => 'nullable|string',
             'type' => 'required|in:piket,kerapian dan kebersihan',
-            'status' => 'required|in:dibayar,belum dibayar',
             'reporter_id' => 'required|integer',
             'user_id' => 'required|integer'
         ]);
 
-        $infraction->update($request->all());
+        // Cek apakah ada file gambar baru yang di-upload
+        if ($request->hasFile('img')) {
+            // Simpan gambar baru
+            $path = $request->file('img')->store('images', 'public');
+            $validatedData['img'] = basename($path);
 
-        return redirect()->route('infractions.edit', $infraction)->with('success', 'Data pelanggaran berhasil diubah.');
+            // Opsional: Hapus gambar lama jika ada untuk menghemat storage
+            if ($infraction->img) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete('images/' . $infraction->img);
+            }
+        }
+
+        // Update data di database
+        $infraction->update($validatedData);
+
+        return redirect()->route('infractions.index')->with('success', 'Data pelanggaran berhasil diubah.');
     }
 
     /**
@@ -86,5 +102,17 @@ class InfractionController extends Controller
     {
         $infraction->delete();
         return redirect()->route('infractions.index')->with('success', 'Data pelanggaran berhasil dihapus.');
+    }
+
+    /**
+     * Update the status of the specified resource to 'paid'.
+     */
+    public function updateStatus(Infraction $infraction)
+    {
+        // Update status menjadi 'dibayar'
+        $infraction->status = 'dibayar';
+        $infraction->save();
+
+        return redirect()->route('infractions.index')->with('success', 'Status pelanggaran berhasil diubah menjadi Dibayar.');
     }
 }

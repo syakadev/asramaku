@@ -48,8 +48,8 @@
                     <span>Kas Asrama</span>
                 </a>
 
-                <a href="{{ route('infraction.index') }}"
-                   class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition duration-200 {{ request()->routeIs('infraction.*') ? 'bg-blue-900 border-r-4 border-yellow-400' : '' }}">
+                <a href="{{ route('infractions.index') }}"
+                   class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition duration-200 {{ request()->routeIs('infractions.*') ? 'bg-blue-900 border-r-4 border-yellow-400' : '' }}">
                     <i class="fas fa-exclamation-triangle mr-3"></i>
                     <span>Pelanggaran</span>
                 </a>
@@ -136,7 +136,7 @@
                 <nav class="flex mb-6" aria-label="Breadcrumb">
                     <ol class="inline-flex items-center space-x-1 md:space-x-3">
                         <li class="inline-flex items-center">
-                            <a href="#" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
+                            <a href="" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
                                 <i class="fas fa-home mr-2"></i>
                                 Home
                             </a>

@@ -5,13 +5,13 @@
     <h1 class="text-2xl font-bold text-gray-800 mb-6">Tambah Pelanggaran</h1>
 
     <div class="bg-white rounded-lg shadow p-6">
-        <form action="{{ route('infraction.store') }}" method="POST">
+        <form action="{{ route('infractions.store') }}" method="POST" enctype="multipart/form-data" >
             @csrf
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="md:col-span-2">
-                    <label for="img" class="block text-sm font-medium text-gray-700 mb-2">URL Gambar *</label>
-                    <input type="text" name="img" id="img" required
+                    <label for="img" class="block text-sm font-medium text-gray-700 mb-2">Foto</label>
+                    <input type="file" name="img" id="img" accept="image/*" capture="environment" required
                         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                         value="{{ old('img') }}" placeholder="Masukkan URL gambar">
                     @error('img')
@@ -28,19 +28,6 @@
                         <option value="kerapian dan kebersihan" {{ old('type') == 'kerapian dan kebersihan' ? 'selected' : '' }}>Kerapian dan Kebersihan</option>
                     </select>
                     @error('type')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status *</label>
-                    <select name="status" id="status" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">Pilih Status</option>
-                        <option value="dibayar" {{ old('status') == 'dibayar' ? 'selected' : '' }}>Dibayar</option>
-                        <option value="belum dibayar" {{ old('status') == 'belum dibayar' ? 'selected' : '' }}>Belum Dibayar</option>
-                    </select>
-                    @error('status')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -76,7 +63,7 @@
             </div>
 
             <div class="mt-6 flex justify-end space-x-3">
-                <a href="{{ route('infraction.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg transition duration-200">
+                <a href="{{ route('infractions.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg transition duration-200">
                     Batal
                 </a>
                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">

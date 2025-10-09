@@ -12,64 +12,18 @@
         </div>
     @endif
 
-    <!-- Statistik Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <!-- Total Saldo -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-blue-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Total Saldo</p>
-                    <p class="text-2xl font-bold text-gray-900 mt-2">
-                        Rp {{ number_format($totalSaldo, 2, ',', '.') }}
-                    </p>
-                </div>
-                <div class="bg-blue-100 p-3 rounded-full">
-                    <i class="fas fa-wallet text-blue-600 text-xl"></i>
-                </div>
-            </div>
-            <div class="mt-4">
-                <span class="text-sm text-gray-500">Saldo akhir bulan ini</span>
-            </div>
+        <!-- Chart Section -->
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-semibold text-gray-800">Grafik Pemasukan & Pengeluaran</h3>
         </div>
-
-        <!-- Total Pemasukan -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-green-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Total Pemasukan</p>
-                    <p class="text-2xl font-bold text-gray-900 mt-2">
-                        Rp {{ number_format($totalPemasukan, 2, ',', '.') }}
-                    </p>
-                </div>
-                <div class="bg-green-100 p-3 rounded-full">
-                    <i class="fas fa-arrow-down text-green-600 text-xl"></i>
-                </div>
-            </div>
-            <div class="mt-4">
-                <span class="text-sm text-gray-500">Pemasukan bulan ini</span>
-            </div>
-        </div>
-
-        <!-- Total Pengeluaran -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-red-500">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600">Total Pengeluaran</p>
-                    <p class="text-2xl font-bold text-gray-900 mt-2">
-                        Rp {{ number_format($totalPengeluaran, 2, ',', '.') }}
-                    </p>
-                </div>
-                <div class="bg-red-100 p-3 rounded-full">
-                    <i class="fas fa-arrow-up text-red-600 text-xl"></i>
-                </div>
-            </div>
-            <div class="mt-4">
-                <span class="text-sm text-gray-500">Pengeluaran bulan ini</span>
-            </div>
+        <div class="h-80">
+            <canvas id="financeChart"></canvas>
         </div>
     </div>
 
-    <!-- Filter Section -->
+
+        <!-- Filter Section -->
     <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <h3 class="text-lg font-semibold text-gray-800">Filter Data</h3>
@@ -127,15 +81,65 @@
         </div>
     </div>
 
-    <!-- Chart Section -->
-    <div class="bg-white rounded-xl shadow-sm p-6 mb-8">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="text-lg font-semibold text-gray-800">Grafik Pemasukan & Pengeluaran</h3>
+    <!-- Statistik Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- Total Saldo -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-blue-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Total Saldo</p>
+                    <p class="text-2xl font-bold text-gray-900 mt-2">
+                        Rp {{ number_format($totalSaldo, 2, ',', '.') }}
+                    </p>
+                </div>
+                <div class="bg-blue-100 p-3 rounded-full">
+                    <i class="fas fa-wallet text-blue-600 text-xl"></i>
+                </div>
+            </div>
+            <div class="mt-4">
+                <span class="text-sm text-gray-500">Saldo akhir bulan ini</span>
+            </div>
         </div>
-        <div class="h-80">
-            <canvas id="financeChart"></canvas>
+
+        <!-- Total Pemasukan -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-green-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Total Pemasukan</p>
+                    <p class="text-2xl font-bold text-gray-900 mt-2">
+                        Rp {{ number_format($totalPemasukan, 2, ',', '.') }}
+                    </p>
+                </div>
+                <div class="bg-green-100 p-3 rounded-full">
+                    <i class="fas fa-arrow-down text-green-600 text-xl"></i>
+                </div>
+            </div>
+            <div class="mt-4">
+                <span class="text-sm text-gray-500">Pemasukan bulan ini</span>
+            </div>
+        </div>
+
+        <!-- Total Pengeluaran -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-red-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600">Total Pengeluaran</p>
+                    <p class="text-2xl font-bold text-gray-900 mt-2">
+                        Rp {{ number_format($totalPengeluaran, 2, ',', '.') }}
+                    </p>
+                </div>
+                <div class="bg-red-100 p-3 rounded-full">
+                    <i class="fas fa-arrow-up text-red-600 text-xl"></i>
+                </div>
+            </div>
+            <div class="mt-4">
+                <span class="text-sm text-gray-500">Pengeluaran bulan ini</span>
+            </div>
         </div>
     </div>
+
+
+
 
     <!-- Header Table -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6">

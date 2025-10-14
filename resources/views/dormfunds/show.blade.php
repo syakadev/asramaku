@@ -37,10 +37,24 @@
             </div>
         </div>
 
-        <div class="mt-8">
+        <div class="mt-8 flex justify-center items-center space-x-4">
+            {{-- back --}}
             <a href="{{ route('dormfunds.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition duration-200">
                 Kembali
             </a>
+            {{-- edit --}}
+            <a href="{{ route('dormfunds.edit', $dormfund) }}"
+                class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center" title="Edit">
+                <i class="fas fa-edit mr-2"></i> Edit
+            </a>
+            {{-- delete --}}
+            <form action="{{ route('dormfunds.destroy', $dormfund) }}" method="POST" class="inline">
+            @csrf
+            @method('DELETE')
+            <button type="submit" title="Hapus" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-200 flex items-center" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
+                <i class="fas fa-trash mr-2"></i> Hapus
+            </button>
+        </form>
         </div>
     </div>
 </div>

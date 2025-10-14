@@ -11,6 +11,74 @@
             {{ session('success') }}
         </div>
     @endif
+        <!-- Chart Section -->
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-8 max-w-full overflow-hidden">
+        <div class="flex justify-between items-center mb-6">
+            <h3 class="text-lg font-semibold text-gray-800">Grafik Pemasukan & Pengeluaran</h3>
+        </div>
+        <div class="h-80 w-full">
+            <canvas id="financeChart"></canvas>
+        </div>
+    </div>
+
+
+        <!-- Filter Section -->
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-8 max-w-full overflow-hidden">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <h3 class="text-lg font-semibold text-gray-800 truncate">Filter Data</h3>
+
+            <form method="GET" action="{{ route('dormfunds.index') }}" class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
+                <!-- Filter Type -->
+                <select name="filter_type" id="filter_type"
+                    class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full md:w-auto min-w-[150px]">
+                    <option value="all" {{ request('filter_type') == 'all' ? 'selected' : '' }}>Semua Data</option>
+                    <option value="month" {{ request('filter_type') == 'month' ? 'selected' : '' }}>Berdasarkan Bulan</option>
+                    <option value="range" {{ request('filter_type') == 'range' ? 'selected' : '' }}>Rentang Tanggal</option>
+                </select>
+
+                <!-- Month Filter (hidden by default) -->
+                <div id="month_filter" class="hidden w-full md:w-auto">
+                    <div class="flex flex-col sm:flex-row gap-2 w-full">
+                        <select name="month" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-auto flex-1">
+                            @for($i = 1; $i <= 12; $i++)
+                                <option value="{{ $i }}" {{ request('month') == $i ? 'selected' : '' }}>
+                                    {{ DateTime::createFromFormat('!m', $i)->format('F') }}
+                                </option>
+                            @endfor
+                        </select>
+                        <select name="year" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-auto flex-1">
+                            @for($i = date('Y'); $i >= 2020; $i--)
+                                <option value="{{ $i }}" {{ request('year') == $i ? 'selected' : '' }}>{{ $i }}</option>
+                            @endfor
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Date Range Filter (hidden by default) -->
+                <div id="range_filter" class="hidden w-full md:w-auto">
+                    <div class="flex flex-col sm:flex-row gap-2 w-full items-center">
+                        <input type="date" name="start_date" value="{{ request('start_date') }}"
+                            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-auto flex-1">
+                        <span class="flex items-center text-gray-500 text-sm">s/d</span>
+                        <input type="date" name="end_date" value="{{ request('end_date') }}"
+                            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-auto flex-1">
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-2 w-full md:w-auto">
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition duration-200 w-full md:w-auto">
+                        Terapkan
+                    </button>
+                    <a href="{{ route('dormfunds.index') }}"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-2 rounded-lg transition duration-200 text-center w-full md:w-auto">
+                        Reset
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Statistik Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-full">
@@ -69,74 +137,6 @@
         </div>
     </div>
 
-    <!-- Filter Section -->
-    <div class="bg-white rounded-xl shadow-sm p-6 mb-8 max-w-full overflow-hidden">
-        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-            <h3 class="text-lg font-semibold text-gray-800 truncate">Filter Data</h3>
-
-            <form method="GET" action="{{ route('dormfunds.index') }}" class="flex flex-col md:flex-row gap-4 w-full md:w-auto">
-                <!-- Filter Type -->
-                <select name="filter_type" id="filter_type"
-                    class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full md:w-auto min-w-[150px]">
-                    <option value="all" {{ request('filter_type') == 'all' ? 'selected' : '' }}>Semua Data</option>
-                    <option value="month" {{ request('filter_type') == 'month' ? 'selected' : '' }}>Berdasarkan Bulan</option>
-                    <option value="range" {{ request('filter_type') == 'range' ? 'selected' : '' }}>Rentang Tanggal</option>
-                </select>
-
-                <!-- Month Filter (hidden by default) -->
-                <div id="month_filter" class="hidden w-full md:w-auto">
-                    <div class="flex flex-col sm:flex-row gap-2 w-full">
-                        <select name="month" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-auto flex-1">
-                            @for($i = 1; $i <= 12; $i++)
-                                <option value="{{ $i }}" {{ request('month') == $i ? 'selected' : '' }}>
-                                    {{ DateTime::createFromFormat('!m', $i)->format('F') }}
-                                </option>
-                            @endfor
-                        </select>
-                        <select name="year" class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-auto flex-1">
-                            @for($i = date('Y'); $i >= 2020; $i--)
-                                <option value="{{ $i }}" {{ request('year') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                            @endfor
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Date Range Filter (hidden by default) -->
-                <div id="range_filter" class="hidden w-full md:w-auto">
-                    <div class="flex flex-col sm:flex-row gap-2 w-full items-center">
-                        <input type="date" name="start_date" value="{{ request('start_date') }}"
-                            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-auto flex-1">
-                        <span class="flex items-center text-gray-500 text-sm">s/d</span>
-                        <input type="date" name="end_date" value="{{ request('end_date') }}"
-                            class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 w-full sm:w-auto flex-1">
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="flex gap-2 w-full md:w-auto">
-                    <button type="submit"
-                        class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg transition duration-200 w-full md:w-auto">
-                        Terapkan
-                    </button>
-                    <a href="{{ route('dormfunds.index') }}"
-                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-6 py-2 rounded-lg transition duration-200 text-center w-full md:w-auto">
-                        Reset
-                    </a>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <!-- Chart Section -->
-    <div class="bg-white rounded-xl shadow-sm p-6 mb-8 max-w-full overflow-hidden">
-        <div class="flex justify-between items-center mb-6">
-            <h3 class="text-lg font-semibold text-gray-800">Grafik Pemasukan & Pengeluaran</h3>
-        </div>
-        <div class="h-80 w-full">
-            <canvas id="financeChart"></canvas>
-        </div>
-    </div>
-
     <!-- Header Table -->
     <div class="flex flex-col md:flex-row md:items-center md:justify-between mb-6 max-w-full">
         <h1 class="text-2xl font-bold text-gray-800 mb-4 md:mb-0 truncate">Data Kas Asrama</h1>
@@ -156,17 +156,15 @@
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Judul</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Tanggal</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Status</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Saldo</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Keterangan</th>
                         <th class="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
                     @foreach($dormFunds as $dormFund)
-                    <tr class="hover:bg-gray-50 transition duration-150">
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 max-w-xs truncate">{{ $dormFund->title }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $dormFund->date }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                    <tr class="hover:bg-gray-50 transition duration-150 text-center"> {{-- Added text-center for alignment --}}
+                        <td class="px-6 py-4 whitespace-nowrap text-left text-sm font-medium text-gray-900 max-w-xs truncate">{{ $dormFund->title }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-left text-sm text-gray-900">{{ $dormFund->date }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-left text-sm">
                             @if($dormFund->status == 'pemasukan')
                                 <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800 border border-blue-200 whitespace-nowrap">
                                     <i class="fas fa-arrow-up mr-1 text-xs"></i> <!-- DIUBAH: tambah ikon -->
@@ -179,32 +177,11 @@
                                 </span>
                             @endif
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-semibold text-gray-900">
-                            Rp {{ number_format($dormFund->amount, 2, ',', '.') }}
-                        </td>
-                        <td class="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
-                            {{ $dormFund->note ?? '-' }}
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <div class="flex space-x-3">
-                                <a href="{{ route('dormfunds.show', $dormFund) }}"
-                                   class="text-blue-600 hover:text-blue-900 transition duration-150 whitespace-nowrap">
-                                    <i class="fas fa-eye mr-1"></i>Lihat
-                                </a>
-                                <a href="{{ route('dormfunds.edit', $dormFund) }}"
-                                   class="text-green-600 hover:text-green-900 transition duration-150 whitespace-nowrap">
-                                    <i class="fas fa-edit mr-1"></i>Edit
-                                </a>
-                                <form action="{{ route('dormfunds.destroy', $dormFund) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit"
-                                        class="text-red-600 hover:text-red-900 transition duration-150 whitespace-nowrap"
-                                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                                        <i class="fas fa-trash mr-1"></i>Hapus
-                                    </button>
-                                </form>
-                            </div>
+                        <td class="px-6 py-4 whitespace-nowrap text-left text-sm font-medium">
+                            <a href="{{ route('dormfunds.show', $dormFund) }}"
+                                class="text-blue-600 hover:text-blue-900 transition duration-150" title="Lihat">
+                                <i class="fas fa-eye"></i>
+                            </a>
                         </td>
                     </tr>
                     @endforeach
@@ -246,10 +223,9 @@
                             Rp {{ number_format($dormFund->amount, 2, ',', '.') }}
                         </td>
                         <td class="px-4 py-3 whitespace-nowrap text-sm font-medium">
-                            <button onclick="showDetailModal({{ $dormFund->id }})"
-                                class="text-blue-600 hover:text-blue-900 transition duration-150">
+                            <a href="{{ route('dormfunds.show', $dormFund) }}" class="text-blue-600 hover:text-blue-900 transition duration-150">
                                 <i class="fas fa-chevron-right"></i>
-                            </button>
+                            </a>
                         </td>
                     </tr>
                     @endforeach
@@ -355,114 +331,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
-// Mobile Modal Functions
-function showDetailModal(id) {
-    const dormFund = {!! json_encode($dormFunds->keyBy('id')) !!}[id];
-
-    if (dormFund) {
-        const modalContent = document.getElementById('modalContent');
-        modalContent.innerHTML = `
-            <div class="space-y-4 max-w-full">
-                <div class="break-words">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
-                    <p class="text-gray-900 font-semibold break-words">${dormFund.title}</p>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Tanggal</label>
-                    <p class="text-gray-900">${dormFund.date}</p>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                    <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full
-                        ${dormFund.status == 'pemasukan' ? 'bg-green-100 text-green-800 border border-green-200' : 'bg-red-100 text-red-800 border border-red-200'}">
-                        <i class="fas ${dormFund.status == 'pemasukan' ? 'fa-arrow-up' : 'fa-arrow-down'} mr-1 text-xs"></i>
-                        ${dormFund.status == 'pemasukan' ? 'Pemasukan' : 'Pengeluaran'}
-                    </span>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Saldo</label>
-                    <p class="text-lg font-bold text-gray-900 break-words">
-                        Rp ${new Intl.NumberFormat('id-ID', {minimumFractionDigits: 2}).format(dormFund.amount)}
-                    </p>
-                </div>
-
-                <div class="break-words">
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan</label>
-                    <p class="text-gray-900 break-words">${dormFund.note || '-'}</p>
-                </div>
-
-                <div class="flex flex-col sm:flex-row gap-3 pt-4 border-t border-gray-200">
-                    <a href="/dormfunds/${dormFund.id}"
-                       class="flex-1 bg-blue-500 hover:bg-blue-600 text-white text-center py-2 px-4 rounded-lg transition duration-200 whitespace-nowrap">
-                        <i class="fas fa-eye mr-2"></i>Lihat Detail
-                    </a>
-                    <a href="/dormfunds/${dormFund.id}/edit"
-                       class="flex-1 bg-green-500 hover:bg-green-600 text-white text-center py-2 px-4 rounded-lg transition duration-200 whitespace-nowrap">
-                        <i class="fas fa-edit mr-2"></i>Edit
-                    </a>
-                </div>
-
-                <form action="/dormfunds/${dormFund.id}" method="POST" class="pt-2">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit"
-                        class="w-full bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded-lg transition duration-200 flex items-center justify-center whitespace-nowrap"
-                        onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">
-                        <i class="fas fa-trash mr-2"></i>Hapus Data
-                    </button>
-                </form>
-            </div>
-        `;
-
-        document.getElementById('detailModal').classList.remove('hidden');
-    }
-}
-
-function closeDetailModal() {
-    document.getElementById('detailModal').classList.add('hidden');
-}
-
-// Close modal when clicking outside
-document.getElementById('detailModal').addEventListener('click', function(e) {
-    if (e.target === this) {
-        closeDetailModal();
-    }
-});
-
-// Prevent horizontal scroll on body
-document.addEventListener('DOMContentLoaded', function() {
-    document.body.style.overflowX = 'hidden';
-});
-</script>
-
-<style>
-/* Custom scrollbar for modal */
-#detailModal .bg-white::-webkit-scrollbar {
-    width: 6px;
-}
-
-#detailModal .bg-white::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
-}
-
-#detailModal .bg-white::-webkit-scrollbar-thumb {
-    background: #c1c1c1;
-    border-radius: 3px;
-}
-
-#detailModal .bg-white::-webkit-scrollbar-thumb:hover {
-    background: #a8a8a8;
-}
-
-/* Ensure no horizontal overflow */
-body {
-    overflow-x: hidden;
-}
 
 /* Responsive text sizing */
 @media (max-width: 640px) {

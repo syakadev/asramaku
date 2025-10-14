@@ -52,6 +52,17 @@
                     @enderror
                 </div>
 
+                <div>
+                    <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Denda *</label>
+                    <input type="number" name="amount" id="amount" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        value="{{ old('amount') }}">
+                    @error('amount')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+
                 <div class="md:col-span-2">
                     <label for="note" class="block text-sm font-medium text-gray-700 mb-2">Catatan</label>
                     <textarea name="note" id="note" rows="3"

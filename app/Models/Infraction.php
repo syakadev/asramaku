@@ -20,6 +20,7 @@ class Infraction extends Model
         'note',
         'type',
         'status',
+        'amount',
         'reporter_id',
         'user_id'
     ];

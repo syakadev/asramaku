@@ -4,7 +4,7 @@
 <div class="container mx-auto px-4 py-6">
     <h1 class="text-2xl font-bold text-gray-800 mb-6">Detail Data Kas</h1>
 
-    <div class="bg-white rounded-lg shadow p-6 max-w-2xl">
+    <div class="bg-white rounded-lg shadow p-6">
         <div class="space-y-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Judul</label>
@@ -19,7 +19,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Saldo</label>
                 <p class="text-lg font-semibold {{ $dormfund->status == 'pemasukan' ? 'text-blue-600' : 'text-red-600' }}">
-                    Rp {{ number_format($dormfund->balance, 2, ',', '.') }}
+                    Rp {{ number_format($dormfund->amount, 2, ',', '.') }}
                 </p>
             </div>
 

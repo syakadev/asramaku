@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Infraction;
 use Illuminate\Http\Request;
+use App\Models\DormFund;
+use App\Models\User;
 
 class InfractionController extends Controller
 {
@@ -34,6 +36,7 @@ class InfractionController extends Controller
             'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'note' => 'nullable|string',
             'type' => 'required|in:piket,kerapian dan kebersihan',
+            'amount' => 'nullable|decimal:0,2',
             'reporter_id' => 'required|integer',
             'user_id' => 'required|integer'
         ]);
@@ -73,6 +76,8 @@ class InfractionController extends Controller
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'note' => 'nullable|string',
             'type' => 'required|in:piket,kerapian dan kebersihan',
+            'status' => 'nullable|in:belum dibayar,dibayar',
+            'amount' => 'nullable|decimal:0,2',
             'reporter_id' => 'required|integer',
             'user_id' => 'required|integer'
         ]);
@@ -88,6 +93,22 @@ class InfractionController extends Controller
                 \Illuminate\Support\Facades\Storage::disk('public')->delete('images/' . $infraction->img);
             }
         }
+
+        $name = User::find($infraction->user_id)->name;
+
+
+        // Jika status diubah menjadi 'dibayar', tambahkan denda ke DormFund
+        if ($request->has('status') && $request->status == 'dibayar' && $infraction->status != 'dibayar') {
+            DormFund::create([
+                'title' => 'Pemasukan Denda Pelanggaran',
+                'note' => 'Denda dari pelanggaran ' . $infraction->type . ' oleh ' . $name,
+                'amount' => 50000, // Asumsi denda tetap 50.000, sesuaikan jika ada logika denda berbeda
+                'date' => now()->toDateString(),
+                'status' => 'pemasukan',
+                'user_id' => $infraction->user_id, // Atau user yang melakukan update
+            ]);
+        }
+
 
         // Update data di database
         $infraction->update($validatedData);

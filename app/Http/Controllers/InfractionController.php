@@ -94,14 +94,12 @@ class InfractionController extends Controller
             }
         }
 
-        $name = User::find($infraction->user_id)->name;
-
-
         // Jika status diubah menjadi 'dibayar', tambahkan denda ke DormFund
         if ($request->has('status') && $request->status == 'dibayar' && $infraction->status != 'dibayar') {
+            $name = User::find($infraction->user_id)->name;
             DormFund::create([
-                'title' => 'Pemasukan Denda Pelanggaran',
-                'note' => 'Denda dari pelanggaran ' . $infraction->type . ' oleh ' . $name,
+                'title' => 'Denda ' . $infraction->type . ' ' . $name,
+                'note' => $validatedData['note'],
                 'amount' => 50000, // Asumsi denda tetap 50.000, sesuaikan jika ada logika denda berbeda
                 'date' => now()->toDateString(),
                 'status' => 'pemasukan',

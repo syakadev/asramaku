@@ -16,6 +16,9 @@
         .sidebar {
             transition: all 0.3s ease;
         }
+        #main-content {
+            transition: margin-left 0.3s ease;
+        }
         @media (max-width: 768px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -29,7 +32,7 @@
 <body class="bg-gray-100">
     <div class="flex h-screen">
         <!-- Sidebar -->
-        <div class="sidebar bg-blue-800 text-white w-64 fixed h-full z-40">
+        <div id="sidebar" class="sidebar bg-blue-800 text-white w-64 fixed h-full z-40 overflow-hidden">
             <div class="p-4">
                 <h1 class="text-2xl font-bold text-white">
                     <i class="fas fa-home mr-2"></i>
@@ -80,12 +83,12 @@
         </div>
 
         <!-- Main Content -->
-        <div class="flex-1 md:ml-64">
+        <div id="main-content" class="flex-1 md:ml-64">
             <!-- Header -->
             <header class="bg-white shadow-sm">
                 <div class="flex items-center justify-between px-6 py-4">
                     <div class="flex items-center">
-                        <button id="mobile-menu-button" class="md:hidden text-gray-600 hover:text-gray-900 mr-4">
+                        <button id="sidebar-toggle" class="text-gray-600 hover:text-gray-900 mr-4">
                             <i class="fas fa-bars text-xl"></i>
                         </button>
                         <h2 class="text-xl font-semibold text-gray-800">
@@ -184,20 +187,55 @@
     <div id="mobile-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden md:hidden"></div>
 
     <script>
-        // Mobile Menu Toggle
-        document.getElementById('mobile-menu-button').addEventListener('click', function() {
-            const sidebar = document.querySelector('.sidebar');
-            const overlay = document.getElementById('mobile-overlay');
+        // Sidebar Toggle
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const sidebarToggle = document.getElementById('sidebar-toggle');
+        const sidebarToggleIcon = sidebarToggle.querySelector('i');
+        const overlay = document.getElementById('mobile-overlay');
 
-            sidebar.classList.toggle('mobile-open');
-            overlay.classList.toggle('hidden');
+        function updateSidebarState() {
+            let isOpen;
+            if (window.innerWidth < 768) {
+                isOpen = sidebar.classList.contains('mobile-open');
+            } else {
+                isOpen = sidebar.classList.contains('w-64');
+            }
+
+            if (isOpen) {
+                sidebarToggleIcon.classList.remove('fa-bars');
+                sidebarToggleIcon.classList.add('fa-times');
+            } else {
+                sidebarToggleIcon.classList.remove('fa-times');
+                sidebarToggleIcon.classList.add('fa-bars');
+            }
+        }
+
+        sidebarToggle.addEventListener('click', () => {
+            // Check if it's a mobile view (based on Tailwind's md breakpoint: 768px)
+            if (window.innerWidth < 768) {
+                sidebar.classList.toggle('mobile-open');
+                overlay.classList.toggle('hidden');
+            } else {
+                // Desktop view
+                if (sidebar.classList.contains('w-64')) {
+                    sidebar.classList.remove('w-64');
+                    sidebar.classList.add('w-0');
+                    mainContent.classList.remove('md:ml-64');
+                } else {
+                    sidebar.classList.remove('w-0');
+                    sidebar.classList.add('w-64');
+                    mainContent.classList.add('md:ml-64');
+                }
+            }
+            updateSidebarState();
         });
 
         // Close mobile menu when clicking overlay
-        document.getElementById('mobile-overlay').addEventListener('click', function() {
-            const sidebar = document.querySelector('.sidebar');
+        overlay.addEventListener('click', function() {
             sidebar.classList.remove('mobile-open');
             this.classList.add('hidden');
+            updateSidebarState();
         });
 
         // User Menu Toggle
@@ -211,7 +249,7 @@
             const userMenuButton = document.getElementById('user-menu-button');
             const userMenu = document.getElementById('user-menu');
 
-            if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+            if (userMenuButton && !userMenuButton.contains(event.target) && userMenu && !userMenu.contains(event.target)) {
                 userMenu.classList.add('hidden');
             }
         });
@@ -229,6 +267,9 @@
                 }, 5000);
             });
         });
+
+        // Set initial icon state on page load
+        updateSidebarState();
     </script>
 
     @stack('scripts')

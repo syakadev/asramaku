@@ -9,7 +9,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Gambar</label>
                 @if($infraction->img)
-                    <img src="{{ $infraction->img }}" alt="Gambar Pelanggaran" class="h-48 w-full object-cover rounded-lg shadow">
+                    <img src="{{ asset('storage/images/' . $infraction->img) }}" alt="Gambar Pelanggaran" class="h-48 w-full object-cover rounded-lg shadow">
                 @else
                     <span class="text-gray-400">Tidak ada gambar</span>
                 @endif
@@ -26,7 +26,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
                 <span class="px-3 py-1 inline-flex text-sm leading-5 font-semibold rounded-full
-                    {{ $infraction->status == 'dibayar' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                    {{ $infraction->status == 'dibayar' ? 'bg-blue-100 text-blue-800' : 'bg-red-100 text-red-800' }}">
                     {{ $infraction->status == 'dibayar' ? 'Dibayar' : 'Belum Dibayar' }}
                 </span>
             </div>
@@ -48,7 +48,7 @@
         </div>
 
         <div class="mt-8">
-            <a href="{{ route('infraction.index') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition duration-200">
+            <a href="{{ route('infractions.index') }}"class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition duration-200">
                 Kembali
             </a>
         </div>

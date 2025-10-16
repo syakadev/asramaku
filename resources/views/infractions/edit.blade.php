@@ -11,16 +11,22 @@
     <h1 class="text-2xl font-bold text-gray-800 mb-6">Edit Pelanggaran</h1>
 
     <div class="bg-white rounded-lg shadow p-6">
-        <form action="{{ route('infraction.update', $infraction) }}" method="POST">
+        <form action="{{ route('infractions.update', $infraction) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div class="md:col-span-2">
-                    <label for="img" class="block text-sm font-medium text-gray-700 mb-2">URL Gambar *</label>
-                    <input type="text" name="img" id="img" required
+                    <label for="img" class="block text-sm font-medium text-gray-700 mb-2">Foto (Opsional)</label>
+                    @if($infraction->img)
+                        <div class="mb-4">
+                            <img src="{{ asset('storage/images/' . $infraction->img) }}" alt="Current Image" class="h-32 w-32 object-cover rounded-md shadow-sm">
+                            <p class="text-sm text-gray-500 mt-1">Current image</p>
+                        </div>
+                    @endif
+                    <input type="file" name="img" id="img" accept="image/*" capture="environment"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        value="{{ old('img', $infraction->img) }}" placeholder="Masukkan URL gambar">
+                        placeholder="Pilih gambar baru">
                     @error('img')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
@@ -35,19 +41,6 @@
                         <option value="kerapian dan kebersihan" {{ old('type', $infraction->type) == 'kerapian dan kebersihan' ? 'selected' : '' }}>Kerapian dan Kebersihan</option>
                     </select>
                     @error('type')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status *</label>
-                    <select name="status" id="status" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        <option value="">Pilih Status</option>
-                        <option value="dibayar" {{ old('status', $infraction->status) == 'dibayar' ? 'selected' : '' }}>Dibayar</option>
-                        <option value="belum dibayar" {{ old('status', $infraction->status) == 'belum dibayar' ? 'selected' : '' }}>Belum Dibayar</option>
-                    </select>
-                    @error('status')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -72,6 +65,31 @@
                     @enderror
                 </div>
 
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status *</label>
+                    <select name="status" id="status" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                        <option value="">Pilih Status</option>
+                        <option value="dibayar" {{ old('status', $infraction->status) == 'dibayar' ? 'selected' : '' }}>Dibayar</option>
+                        <option value="belum dibayar" {{ old('status', $infraction->status) == 'belum dibayar' ? 'selected' : '' }}>Belum Dibayar</option>
+                    </select>
+                    @error('status')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div>
+                    <label for="amount" class="block text-sm font-medium text-gray-700 mb-2">Denda *</label>
+                    <input type="number" name="amount" id="amount" required
+                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                        value="{{ old('amount', $infraction->amount) }}">
+                    @error('amount')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+
+
                 <div class="md:col-span-2">
                     <label for="note" class="block text-sm font-medium text-gray-700 mb-2">Catatan</label>
                     <textarea name="note" id="note" rows="3"
@@ -83,7 +101,7 @@
             </div>
 
             <div class="mt-6 flex justify-end space-x-3">
-                <a href="{{ route('infraction.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg transition duration-200">
+                <a href="{{ route('infractions.index') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded-lg transition duration-200">
                     Batal
                 </a>
                 <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">

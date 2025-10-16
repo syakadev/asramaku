@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
              $table->string('img');
             $table->text('note')->nullable();
-            $table->enum('type', ['piket', 'kerapian dan kebersihan']); // piket, kerapian dan kebersihan
-            $table->enum('status', ['dibayar', 'belum dibayar']); // Misal: 'diproses', 'selesai'
+            $table->enum('type', ['piket', 'kerapian dan kebersihan']);
+            $table->enum('status', ['dibayar', 'belum dibayar'])->default('belum dibayar');
+            $table->decimal('amount', 15, 2)->default(0);
             $table->foreignId('reporter_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();

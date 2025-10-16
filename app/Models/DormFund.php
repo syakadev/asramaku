@@ -18,7 +18,7 @@ class DormFund extends Model
     protected $fillable = [
         'title',
         'note',
-        'balance',
+        'amount',
         'date',
         'status',
         'user_id'

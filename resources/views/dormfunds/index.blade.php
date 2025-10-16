@@ -253,6 +253,9 @@
     </div>
 </div>
 
+@endsection
+
+@push('scripts')
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -276,8 +279,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    filterType.addEventListener('change', toggleFilters);
-    toggleFilters(); // Initialize on page load
+    if (filterType) {
+        filterType.addEventListener('change', toggleFilters);
+        toggleFilters(); // Initialize on page load
+    }
 });
 
 // Chart.js Implementation
@@ -287,18 +292,18 @@ document.addEventListener('DOMContentLoaded', function() {
         const financeChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: {!! json_encode($chartLabels) !!},
+                labels: {!! isset($chartLabels) ? json_encode($chartLabels) : '[]' !!},
                 datasets: [
                     {
                         label: 'Pemasukan',
-                        data: {!! json_encode($chartPemasukan) !!},
+                        data: {!! isset($chartPemasukan) ? json_encode($chartPemasukan) : '[]' !!},
                         backgroundColor: '#10B981',
                         borderColor: '#059669',
                         borderWidth: 1
                     },
                     {
                         label: 'Pengeluaran',
-                        data: {!! json_encode($chartPengeluaran) !!},
+                        data: {!! isset($chartPengeluaran) ? json_encode($chartPengeluaran) : '[]' !!},
                         backgroundColor: '#EF4444',
                         borderColor: '#DC2626',
                         borderWidth: 1
@@ -331,13 +336,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
-
-/* Responsive text sizing */
-@media (max-width: 640px) {
-    .text-2xl {
-        font-size: 1.5rem;
-        line-height: 2rem;
-    }
-}
-</style>
-@endsection
+</script>
+@endpush

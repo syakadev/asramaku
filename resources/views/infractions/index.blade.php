@@ -24,61 +24,99 @@
     </div>
 
     <div class="bg-white rounded-lg shadow overflow-hidden">
-        <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-                <tr>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gambar</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipe</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Denda</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pelapor</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pelanggar</th>
-                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
-                </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-                @foreach($infractions as $item)
-                <tr>
-                    <td class="px-6 py-4 whitespace-nowrap">
+        <!-- Desktop Table -->
+        <div class="hidden md:block">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Gambar</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipe</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Denda</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pelapor</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Pelanggar</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach($infractions as $item)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            @if($item->img)
+                                <a href="{{ asset('storage/images/' . $item->img) }}" data-toggle="image-modal">
+                                    <img src="{{ asset('storage/images/' . $item->img) }}" alt="Gambar Pelanggaran" class="h-12 w-12 object-cover rounded cursor-pointer hover:opacity-75 transition">
+                                </a>
+                            @else
+                                <span class="text-gray-400">-</span>
+                            @endif
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                {{ $item->type == 'piket' ? 'bg-yellow-100 text-yellow-800' : 'bg-purple-100 text-purple-800' }}">
+                                {{ $item->type == 'piket' ? 'Piket' : 'Kerapian dan Kebersihan' }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp {{ number_format($item->amount, 2, ',', '.') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                {{ $item->status == 'dibayar' ? 'bg-blue-100 text-blue-1000' : 'bg-red-100 text-red-800' }}">
+                                {{ $item->status == 'dibayar' ? 'Dibayar' : 'Belum Dibayar' }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->reporter_id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->user_id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                            <div class="flex space-x-2">
+                                <a href="{{ route('infractions.show', $item) }}" class="text-blue-600 hover:text-blue-900">Lihat</a>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Mobile Card List -->
+        <div class="md:hidden">
+            @foreach($infractions as $item)
+            <div class="border-b border-gray-200 last:border-b-0">
+                <div class="p-4">
+                    <div class="flex items-start space-x-4">
                         @if($item->img)
                             <a href="{{ asset('storage/images/' . $item->img) }}" data-toggle="image-modal">
-                                <img src="{{ asset('storage/images/' . $item->img) }}" alt="Gambar Pelanggaran" class="h-12 w-12 object-cover rounded cursor-pointer hover:opacity-75 transition">
+                                <img src="{{ asset('storage/images/' . $item->img) }}" alt="Gambar Pelanggaran" class="h-16 w-16 object-cover rounded cursor-pointer hover:opacity-75 transition">
                             </a>
                         @else
-                            <span class="text-gray-400">-</span>
+                            <div class="h-16 w-16 bg-gray-100 rounded flex items-center justify-center">
+                                <span class="text-gray-400 text-xs">No Image</span>
+                            </div>
                         @endif
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                            {{ $item->type == 'piket' ? 'bg-yellow-100 text-yellow-800' : 'bg-purple-100 text-purple-800' }}">
-                            {{ $item->type == 'piket' ? 'Piket' : 'Kerapian dan Kebersihan' }}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">Rp {{ number_format($item->amount, 2, ',', '.') }}</td>
-
-                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                            {{ $item->status == 'dibayar' ? 'bg-blue-100 text-blue-1000' : 'bg-red-100 text-red-800' }}">
-                            {{ $item->status == 'dibayar' ? 'Dibayar' : 'Belum Dibayar' }}
-                        </span>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->reporter_id }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $item->user_id }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                        <div class="flex space-x-2">
-                            <a href="{{ route('infractions.show', $item) }}" class="text-blue-600 hover:text-blue-900">Lihat</a>
-                            <a href="{{ route('infractions.edit', $item) }}" class="text-green-600 hover:text-green-900">Edit</a>
-                            <form action="{{ route('infractions.destroy', $item) }}" method="POST" class="inline">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
-                            </form>
+                        <div class="flex-1">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                        {{ $item->type == 'piket' ? 'bg-yellow-100 text-yellow-800' : 'bg-purple-100 text-purple-800' }}">
+                                        {{ $item->type == 'piket' ? 'Piket' : 'Kerapian' }}
+                                    </span>
+                                    <p class="text-sm text-gray-600 mt-1">Pelanggar: <span class="font-semibold text-gray-800">{{ $item->user_id }}</span></p>
+                                </div>
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                    {{ $item->status == 'dibayar' ? 'bg-blue-100 text-blue-1000' : 'bg-red-100 text-red-800' }}">
+                                    {{ $item->status == 'dibayar' ? 'Dibayar' : 'Belum Dibayar' }}
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-600 mt-1">Denda: <span class="font-semibold text-gray-800">Rp {{ number_format($item->amount, 2, ',', '.') }}</span></p>
+                            <p class="text-sm text-gray-600">Pelapor: <span class="font-semibold text-gray-800">{{ $item->reporter_id }}</span></p>
                         </div>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    </div>
+                    <div class="mt-4 flex justify-end space-x-3">
+                        <a href="{{ route('infractions.show', $item) }}" class="text-sm text-blue-600 hover:text-blue-900">Lihat</a>
+
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
     </div>
 
     <!-- Image Modal -->

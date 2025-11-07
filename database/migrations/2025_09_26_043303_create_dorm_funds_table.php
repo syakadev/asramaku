@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('note')->nullable();
+            $table->enum('type', ['kas', 'denda']); //kas atau denda
             $table->decimal('amount', 15, 2)->default(0);
-            $table->date('date')->nullable();
-            $table->enum('status', ['pemasukan', 'pengeluaran']); // Misal: 'pemasukan', 'pengeluaran'
+            $table->date('date');
+            $table->enum('status', ['pemasukan', 'pengeluaran']); // 'pemasukan', 'pengeluaran'
+            $table->foreign('dorm_id')->constrained('dorms')->onDelete('cascade')->nullable();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });

@@ -18,10 +18,12 @@ class DormFund extends Model
     protected $fillable = [
         'title',
         'note',
+        'type',
         'amount',
         'date',
         'status',
-        'user_id'
+        'user_id',
+        'dorm_id'
     ];
 
     /**
@@ -57,4 +59,14 @@ class DormFund extends Model
     // {
     //     return $this->hasMany(Child::class, 'foreign_key', 'local_key');
     // }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function infraction()
+    {
+        return $this->belongsTo(Infraction::class, 'dorm_id', 'id');
+    }
 }

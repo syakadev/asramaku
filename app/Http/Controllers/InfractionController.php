@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Infraction;
 use Illuminate\Http\Request;
-use App\Models\DormFund;
-use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 class InfractionController extends Controller
 {
@@ -32,6 +31,10 @@ class InfractionController extends Controller
     public function store(Request $request)
     {
         // 1. Validasi input
+        $reporterId = $request->input('reporter_id');
+        // $reporterId = Auth::user()->id; // Ambil reporter_id default dari user yang login
+
+
         $validatedData = $request->validate([
             'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'note' => 'nullable|string',
@@ -75,6 +78,7 @@ class InfractionController extends Controller
         $validatedData = $request->validate([
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'note' => 'nullable|string',
+            'date' => 'nullable|date_format:Y-m-d',
             'type' => 'required|in:piket,kerapian dan kebersihan',
             'status' => 'nullable|in:belum dibayar,dibayar',
             'amount' => 'nullable|decimal:0,2',
@@ -90,26 +94,27 @@ class InfractionController extends Controller
 
             // Opsional: Hapus gambar lama jika ada untuk menghemat storage
             if ($infraction->img) {
-                \Illuminate\Support\Facades\Storage::disk('public')->delete('images/' . $infraction->img);
+                Storage::disk('public')->delete('images/' . $infraction->img);
             }
         }
 
-        // Jika status diubah menjadi 'dibayar', tambahkan denda ke DormFund
-        if ($request->has('status') && $request->status == 'dibayar' && $infraction->status != 'dibayar') {
-            $name = User::find($infraction->user_id)->name;
-            DormFund::create([
-                'title' => 'Denda ' . $infraction->type . ' ' . $name,
-                'note' => $validatedData['note'],
-                'amount' => 50000, // Asumsi denda tetap 50.000, sesuaikan jika ada logika denda berbeda
-                'date' => now()->toDateString(),
-                'status' => 'pemasukan',
-                'user_id' => $infraction->user_id, // Atau user yang melakukan update
-            ]);
-        }
-
-
         // Update data di database
         $infraction->update($validatedData);
+
+        // Jika status diubah menjadi 'dibayar', tambahkan infraction ke DormFund
+        if ($infraction->status == 'dibayar') {
+            // add balance dorm fund from infraction
+            $infraction->dormFund()->create([
+                'title' => 'Denda ' . $infraction->type . ' oleh ' . $infraction->user->name,
+                'note' => $infraction->note,
+                'type' => 'denda', // Set type to 'denda'
+                'amount' => $infraction->amount,
+                'date' => $infraction->date,
+                'status' => 'pemasukan',
+                // 'dorm_id' is automatically set by the relationship
+                'user_id' => $infraction->user_id,
+            ]);
+        }
 
         return redirect()->route('infractions.index')->with('success', 'Data pelanggaran berhasil diubah.');
     }

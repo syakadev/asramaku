@@ -12,7 +12,8 @@ class DutyController extends Controller
      */
     public function index()
     {
-        //
+        $duty = Duty::all();
+        return view('duties.index', compact('duties'));
     }
 
     /**
@@ -20,7 +21,7 @@ class DutyController extends Controller
      */
     public function create()
     {
-        //
+        return view('duties.create');
     }
 
     /**
@@ -28,7 +29,13 @@ class DutyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validate = $request->validate([
+            'section' => 'required|string',
+            'description' => 'required|string'
+        ]);
+
+        Duty::create($validate);
+        return redirect()->route('duties.index')->with('success', 'Data piket berhasil ditambahkan.');
     }
 
     /**
@@ -36,7 +43,8 @@ class DutyController extends Controller
      */
     public function show(Duty $duty)
     {
-        //
+        $duty = Duty::find($duty->id);
+        return view('duties.show', compact('duty'));
     }
 
     /**
@@ -44,7 +52,8 @@ class DutyController extends Controller
      */
     public function edit(Duty $duty)
     {
-        //
+        $duty = Duty::find($duty->id);
+        return view('duties.edit', compact('duty'));
     }
 
     /**
@@ -52,7 +61,14 @@ class DutyController extends Controller
      */
     public function update(Request $request, Duty $duty)
     {
-        //
+        $validate = $request->validate([
+            'section' => 'required|string',
+            'description' => 'required|string'
+        ]);
+
+        $duty->update($validate);
+
+        return view('duties.index', compact('duty'));
     }
 
     /**
@@ -60,6 +76,8 @@ class DutyController extends Controller
      */
     public function destroy(Duty $duty)
     {
-        //
+        Duty::delete($duty->id);
+
+        return view('duties.index', compact('duty'));
     }
 }

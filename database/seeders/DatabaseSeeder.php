@@ -24,7 +24,8 @@ class DatabaseSeeder extends Seeder
         $this->call(
             [
                 InfractionSeeder::class,
-                DormFundSeeder::class
+                DormFundSeeder::class,
+                DutySeeder::class
             ]
         );
 

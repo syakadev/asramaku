@@ -68,7 +68,7 @@ class DutyController extends Controller
 
         $duty->update($validate);
 
-        return view('duties.index', compact('duty'));
+        return view('duties.index');
     }
 
     /**
@@ -76,8 +76,7 @@ class DutyController extends Controller
      */
     public function destroy(Duty $duty)
     {
-        Duty::delete($duty->id);
-
+        $duty->delete();
         return view('duties.index', compact('duty'));
     }
 }

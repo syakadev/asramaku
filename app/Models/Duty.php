@@ -52,4 +52,8 @@ class Duty extends Model
     // {
     //     return $this->hasMany(Child::class, 'foreign_key', 'local_key');
     // }
+    public function dutySchedule()
+    {
+        return $this->hasMany(DutySchedule::class, 'duty_id', 'id');
+    }
 }

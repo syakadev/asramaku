@@ -15,7 +15,10 @@ class Duty extends Model
      * The attributes that are mass assignable.
      * @var array<int, string>
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'section',
+        'description'
+    ];
 
     /**
      * The attributes that should be hidden for serialization.

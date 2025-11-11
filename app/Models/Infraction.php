@@ -18,6 +18,7 @@ class Infraction extends Model
     protected $fillable = [
         'img',
         'note',
+        'date',
         'type',
         'status',
         'amount',
@@ -65,7 +66,7 @@ class Infraction extends Model
 
     public function dormFund()
     {
-        return $this->hasOne(DormFund::class, 'dorm_id', 'id');
+        return $this->hasOne(DormFund::class, 'infraction_id', 'id');
     }
 }
 

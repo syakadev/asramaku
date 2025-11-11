@@ -22,8 +22,8 @@ class DormFund extends Model
         'amount',
         'date',
         'status',
-        'user_id',
-        'dorm_id'
+        'indfaction_id',
+        'user_id'
     ];
 
     /**
@@ -67,6 +67,6 @@ class DormFund extends Model
 
     public function infraction()
     {
-        return $this->belongsTo(Infraction::class, 'dorm_id', 'id');
+        return $this->belongsTo(Infraction::class, 'infraction_id', 'id');
     }
 }

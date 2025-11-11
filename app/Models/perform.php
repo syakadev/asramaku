@@ -49,4 +49,14 @@ class perform extends Model
     // {
     //     return $this->hasMany(Child::class, 'foreign_key', 'local_key');
     // }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
+
+    public function dormFund()
+    {
+        return $this->belongsTo(DormFund::class, 'dorm_id', 'id');
+    }
 }

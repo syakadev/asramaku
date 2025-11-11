@@ -19,8 +19,8 @@ return new class extends Migration
             $table->decimal('amount', 15, 2)->default(0);
             $table->date('date');
             $table->enum('status', ['pemasukan', 'pengeluaran']); // 'pemasukan', 'pengeluaran'
-            $table->foreign('dorm_id')->constrained('dorms')->onDelete('cascade')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('infraction_id')->nullable()->constrained('infractions')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

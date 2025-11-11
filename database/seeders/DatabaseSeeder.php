@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Infraction;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,7 +21,13 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
 
-        $this->call(DormFunds::class);
+        $this->call(
+            [
+                InfractionSeeder::class,
+                DormFundSeeder::class
+            ]
+        );
+
 
     }
 }

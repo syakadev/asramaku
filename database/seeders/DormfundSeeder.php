@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\DormFund;
 
 
-class DormFunds extends Seeder
+class DormfundSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -19,6 +19,17 @@ class DormFunds extends Seeder
             'amount' => 100000.00,
             'date' => '2024-01-01',
             'status' => 'pemasukan',
+            'type' => 'kas',
+            'user_id' => 1,
+        ]);
+
+        DormFund::create([
+            'title' => 'Denda tidak piket',
+            'amount' => 5000.00,
+            'date' => '2024-01-15',
+            'status' => 'pemasukan',
+            'type' => 'denda',
+            'infraction_id' => 1,
             'user_id' => 1,
         ]);
 
@@ -27,6 +38,7 @@ class DormFunds extends Seeder
             'amount' => 50000.00,
             'date' => '2024-01-15',
             'status' => 'pengeluaran',
+            'type' => 'kas',
             'user_id' => 1,
         ]);
 
@@ -35,6 +47,7 @@ class DormFunds extends Seeder
             'amount' => 200000.00,
             'date' => '2024-02-01',
             'status' => 'pemasukan',
+            'type' => 'kas',
             'user_id' => 1,
         ]);
 

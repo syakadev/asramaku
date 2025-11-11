@@ -31,8 +31,8 @@ class InfractionController extends Controller
     public function store(Request $request)
     {
         // 1. Validasi input
-        $reporterId = $request->input('reporter_id');
         // $reporterId = Auth::user()->id; // Ambil reporter_id default dari user yang login
+        // $reporterId = $request->input('reporter_id');
 
 
         $validatedData = $request->validate([
@@ -78,7 +78,7 @@ class InfractionController extends Controller
         $validatedData = $request->validate([
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'note' => 'nullable|string',
-            'date' => 'nullable|date_format:Y-m-d',
+            // 'date' => 'nullable|date_format:Y-m-d',
             'type' => 'required|in:piket,kerapian dan kebersihan',
             'status' => 'nullable|in:belum dibayar,dibayar',
             'amount' => 'nullable|decimal:0,2',
@@ -126,17 +126,5 @@ class InfractionController extends Controller
     {
         $infraction->delete();
         return redirect()->route('infractions.index')->with('success', 'Data pelanggaran berhasil dihapus.');
-    }
-
-    /**
-     * Update the status of the specified resource to 'paid'.
-     */
-    public function updateStatus(Infraction $infraction)
-    {
-        // Update status menjadi 'dibayar'
-        $infraction->status = 'dibayar';
-        $infraction->save();
-
-        return redirect()->route('infractions.index')->with('success', 'Status pelanggaran berhasil diubah menjadi Dibayar.');
     }
 }

@@ -14,52 +14,52 @@ class DormFundController extends Controller
     {
         $query = DormFund::query();
 
-    // Apply filters
-    if ($request->filter_type == 'month') {
-        $query->whereMonth('date', $request->month)
-                ->whereYear('date', $request->year);
-    } elseif ($request->filter_type == 'range') {
-        $query->whereBetween('date', [$request->start_date, $request->end_date]);
-    }
+        // Apply filters
+        if ($request->filter_type == 'month') {
+            $query->whereMonth('date', $request->month)
+                    ->whereYear('date', $request->year);
+        } elseif ($request->filter_type == 'range') {
+            $query->whereBetween('date', [$request->start_date, $request->end_date]);
+        }
 
-    $dormFunds = $query->latest()->get();
+        $dormFunds = $query->latest()->get();
 
-    // Calculate statistics
-    $totalPemasukan = $dormFunds->where('status', 'pemasukan')->sum('amount');
-    $totalPengeluaran = $dormFunds->where('status', 'pengeluaran')->sum('amount');
-    $totalSaldo = $totalPemasukan - $totalPengeluaran;
+        // Calculate statistics
+        $totalPemasukan = $dormFunds->where('status', 'pemasukan')->sum('amount');
+        $totalPengeluaran = $dormFunds->where('status', 'pengeluaran')->sum('amount');
+        $totalSaldo = $totalPemasukan - $totalPengeluaran;
 
-    // Chart data - last 6 months
-    $chartLabels = [];
-    $chartPemasukan = [];
-    $chartPengeluaran = [];
+        // Chart data - last 6 months
+        $chartLabels = [];
+        $chartPemasukan = [];
+        $chartPengeluaran = [];
 
-    for ($i = 5; $i >= 0; $i--) {
-        $month = now()->subMonths($i);
-        $chartLabels[] = $month->format('M Y');
+        for ($i = 5; $i >= 0; $i--) {
+            $month = now()->subMonths($i);
+            $chartLabels[] = $month->format('M Y');
 
-        $monthPemasukan = DormFund::where('status', 'pemasukan')
-            ->whereMonth('date', $month->month)
-            ->whereYear('date', $month->year)
-            ->sum('amount');
-        $chartPemasukan[] = $monthPemasukan;
+            $monthPemasukan = DormFund::where('status', 'pemasukan')
+                ->whereMonth('date', $month->month)
+                ->whereYear('date', $month->year)
+                ->sum('amount');
+            $chartPemasukan[] = $monthPemasukan;
 
-        $monthPengeluaran = DormFund::where('status', 'pengeluaran')
-            ->whereMonth('date', $month->month)
-            ->whereYear('date', $month->year)
-            ->sum('amount');
-        $chartPengeluaran[] = $monthPengeluaran;
-    }
+            $monthPengeluaran = DormFund::where('status', 'pengeluaran')
+                ->whereMonth('date', $month->month)
+                ->whereYear('date', $month->year)
+                ->sum('amount');
+            $chartPengeluaran[] = $monthPengeluaran;
+        }
 
-    return view('dormfunds.index', compact(
-        'dormFunds',
-        'totalSaldo',
-        'totalPemasukan',
-        'totalPengeluaran',
-        'chartLabels',
-        'chartPemasukan',
-        'chartPengeluaran'
-    ));
+        return view('dormfunds.index', compact(
+            'dormFunds',
+            'totalSaldo',
+            'totalPemasukan',
+            'totalPengeluaran',
+            'chartLabels',
+            'chartPemasukan',
+            'chartPengeluaran'
+        ));
     }
 
     /**

@@ -17,3 +17,5 @@ Route::resource('infractions', InfractionController::class);
 Route::resource('performs', PerformController::class);
 Route::resource('activities', ActivityController::class);
 Route::resource('attendances', AttendanceController::class);
+Route::resource('duty', AttendanceController::class);
+Route::resource('dutyshcedules', AttendanceController::class);

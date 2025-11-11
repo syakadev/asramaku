@@ -11,11 +11,14 @@ use App\Http\Controllers\PerformController;
 use App\Http\Controllers\InfractionController;
 use App\Http\Controllers\ActivityController;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\DutyController;
+use App\Http\Controllers\DutyScheduleController;
+
 
 Route::resource('dormfunds', DormFundController::class);
 Route::resource('infractions', InfractionController::class);
 Route::resource('performs', PerformController::class);
 Route::resource('activities', ActivityController::class);
 Route::resource('attendances', AttendanceController::class);
-Route::resource('duty', AttendanceController::class);
-Route::resource('dutyshcedules', AttendanceController::class);
+Route::resource('duties', DutyController::class);
+Route::resource('dutyshcedules', DutyScheduleController::class);

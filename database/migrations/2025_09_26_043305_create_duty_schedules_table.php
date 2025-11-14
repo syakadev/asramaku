@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('duty_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->date('period');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->timestamps();
         });
     }

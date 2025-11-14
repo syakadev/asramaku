@@ -18,7 +18,8 @@ class DutySchedule extends Model
     protected $fillable = [
         'duty_id',
         'user_id',
-        'period',
+        'start_date',
+        'end_date'
     ];
 
     /**

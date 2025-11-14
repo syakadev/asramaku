@@ -14,7 +14,7 @@ class DutyScheduleController extends Controller
      */
     public function index()
     {
-        $dutySchedules = DutySchedule::with(['duty', 'user'])->get();
+        $dutySchedules = DutySchedule::all();
         return view('dutySchedules.index', compact('dutySchedules'));
     }
 
@@ -33,11 +33,29 @@ class DutyScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'duty_id' => 'required|exists:duties,id',
-            'user_id' => 'required|exists:users,id',
-            'period' => 'required|string',
-        ]);
+    $request->validate([
+    'duty_id'    => 'required|exists:duties,id',
+    'user_id'    => 'required|exists:users,id',
+    'start_date' => 'required|date',
+    'end_date'   => 'required|date|after:start_date'
+    ], [
+        // duty_id
+        'duty_id.required' => 'Duty wajib dipilih.',
+        'duty_id.exists'   => 'Duty yang dipilih tidak valid.',
+
+        // user_id
+        'user_id.required' => 'User wajib dipilih.',
+        'user_id.exists'   => 'User yang dipilih tidak terdaftar.',
+
+        // start_date
+        'start_date.required' => 'Tanggal mulai wajib diisi.',
+        'start_date.date'     => 'Tanggal mulai harus berupa format tanggal yang valid.',
+
+        // end_date
+        'end_date.required' => 'Tanggal selesai wajib diisi.',
+        'end_date.date'     => 'Tanggal selesai harus berupa format tanggal yang valid.',
+        'end_date.after'    => 'Tanggal selesai harus lebih besar dari tanggal mulai.',
+    ]);
 
         DutySchedule::create($request->all());
         return redirect()->route('dutySchedules.index')->with('success', 'Data piket berhasil ditambahkan.');
@@ -67,10 +85,29 @@ class DutyScheduleController extends Controller
     public function update(Request $request, DutySchedule $dutySchedule)
     {
         $request->validate([
-            'duty_id' => 'required|exists:duties,id',
-            'user_id' => 'required|exists:users,id',
-            'period' => 'required|string',
+            'duty_id'    => 'required|exists:duties,id',
+            'user_id'    => 'required|exists:users,id',
+            'start_date' => 'required|date',
+            'end_date'   => 'required|date|after:start_date'
+        ], [
+            // duty_id
+            'duty_id.required' => 'Duty wajib dipilih.',
+            'duty_id.exists'   => 'Duty yang dipilih tidak valid.',
+
+            // user_id
+            'user_id.required' => 'User wajib dipilih.',
+            'user_id.exists'   => 'User yang dipilih tidak terdaftar.',
+
+            // start_date
+            'start_date.required' => 'Tanggal mulai wajib diisi.',
+            'start_date.date'     => 'Tanggal mulai harus berupa format tanggal yang valid.',
+
+            // end_date
+            'end_date.required' => 'Tanggal selesai wajib diisi.',
+            'end_date.date'     => 'Tanggal selesai harus berupa format tanggal yang valid.',
+            'end_date.after'    => 'Tanggal selesai harus lebih besar dari tanggal mulai.',
         ]);
+
 
         $dutySchedule->update($request->all());
 

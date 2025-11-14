@@ -12,7 +12,7 @@ class DutyController extends Controller
      */
     public function index()
     {
-        $duty = Duty::all();
+        $duties = Duty::all();
         return view('duties.index', compact('duties'));
     }
 
@@ -68,7 +68,7 @@ class DutyController extends Controller
 
         $duty->update($validate);
 
-        return view('duties.index');
+        return redirect()->route('duties.index')->with('success', 'Data piket berhasil diubah.');
     }
 
     /**
@@ -77,6 +77,8 @@ class DutyController extends Controller
     public function destroy(Duty $duty)
     {
         $duty->delete();
-        return view('duties.index', compact('duty'));
+
+        $duties = Duty::all();
+        return view('duties.index', compact('duties'));
     }
 }

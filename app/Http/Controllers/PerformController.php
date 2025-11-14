@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DutySchedule;
 use App\Models\perform;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PerformController extends Controller
@@ -12,7 +14,8 @@ class PerformController extends Controller
      */
     public function index()
     {
-        //
+        Perform::all();
+        return view('performs.index');
     }
 
     /**
@@ -20,7 +23,9 @@ class PerformController extends Controller
      */
     public function create()
     {
-        //
+        DutySchedule::all();
+        User::all();
+        return view('performs.create', compact('dutySchedules', 'users'));
     }
 
     /**
@@ -28,7 +33,17 @@ class PerformController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'date' => 'required|date_format:Y-m-d',
+            'status' => 'required|in:belum dikerjakan,sudah dikerjakan',
+            'duty_schedule_id' => 'required|integer',
+            'user_id' => 'required|integer'
+        ]);
+
+        perform::create($request->all());
+
+        return redirect()->route('performs.index')->with('success', 'Data piket berhasil ditambahkan.');
     }
 
     /**
@@ -36,7 +51,7 @@ class PerformController extends Controller
      */
     public function show(perform $perform)
     {
-        //
+        return view('performs.show', compact('perform'));
     }
 
     /**
@@ -44,7 +59,7 @@ class PerformController extends Controller
      */
     public function edit(perform $perform)
     {
-        //
+        return view('performs.edit', compact('perform'));
     }
 
     /**
@@ -52,7 +67,17 @@ class PerformController extends Controller
      */
     public function update(Request $request, perform $perform)
     {
-        //
+        $request->validate([
+            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20',
+            'date' => 'nullable|date_format:Y-m-d',
+            'status' => 'nullable|in:belum dikerjakan,sudah dikerjakan',
+            'duty_schedule_id' => 'nullable|integer',
+            'user_id' => 'nullable|integer'
+        ]);
+
+        $perform->update($request->all());
+
+        return redirect()->route('performs.index')->with('success', 'Data piket berhasil diubah.');
     }
 
     /**
@@ -60,6 +85,8 @@ class PerformController extends Controller
      */
     public function destroy(perform $perform)
     {
-        //
+        $perform->delete();
+
+        return redirect()->route('performs.index')->with('success', 'Data piket berhasil dihapus.');
     }
 }

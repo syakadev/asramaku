@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Duty;
 use App\Models\DutySchedule;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DutyScheduleController extends Controller
@@ -12,8 +14,8 @@ class DutyScheduleController extends Controller
      */
     public function index()
     {
-        DutySchedule::all();
-        return view('dutySchedules.index');
+        $dutySchedules = DutySchedule::with(['duty', 'user'])->get();
+        return view('dutySchedules.index', compact('dutySchedules'));
     }
 
     /**
@@ -21,7 +23,9 @@ class DutyScheduleController extends Controller
      */
     public function create()
     {
-        return view('dutySchedules.create');
+        $users = User::all();
+        $duties = Duty::all();
+        return view('dutySchedules.create', compact('users', 'duties'));
     }
 
     /**
@@ -30,9 +34,9 @@ class DutyScheduleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'duty_id',
-            'user_id',
-            'period'
+            'duty_id' => 'required|exists:duties,id',
+            'user_id' => 'required|exists:users,id',
+            'period' => 'required|string',
         ]);
 
         DutySchedule::create($request->all());
@@ -52,7 +56,9 @@ class DutyScheduleController extends Controller
      */
     public function edit(DutySchedule $dutySchedule)
     {
-        return view('dutySchedules.edit', compact('dutySchedule'));
+        $users = User::all();
+        $duties = Duty::all();
+        return view('dutySchedules.edit', compact('dutySchedule', 'users', 'duties'));
     }
 
     /**
@@ -61,14 +67,14 @@ class DutyScheduleController extends Controller
     public function update(Request $request, DutySchedule $dutySchedule)
     {
         $request->validate([
-            'duty_id',
-            'user_id',
-            'period'
+            'duty_id' => 'required|exists:duties,id',
+            'user_id' => 'required|exists:users,id',
+            'period' => 'required|string',
         ]);
 
         $dutySchedule->update($request->all());
 
-        return redirect('dutySchedules.index')->with('success', 'Data piket berhasil diubah.');
+        return redirect()->route('dutySchedules.index')->with('success', 'Data piket berhasil diubah.');
     }
 
     /**
@@ -77,6 +83,6 @@ class DutyScheduleController extends Controller
     public function destroy(DutySchedule $dutySchedule)
     {
         $dutySchedule->delete();
-        return redirect('dutySchedules.index')->with('success', 'Data piket berhasil dihapus.');
+        return redirect()->route('dutySchedules.index')->with('success', 'Data piket berhasil dihapus.');
     }
 }

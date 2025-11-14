@@ -21,4 +21,4 @@ Route::resource('performs', PerformController::class);
 Route::resource('activities', ActivityController::class);
 Route::resource('attendances', AttendanceController::class);
 Route::resource('duties', DutyController::class);
-Route::resource('dutyshcedules', DutyScheduleController::class);
+Route::resource('dutySchedules', DutyScheduleController::class);

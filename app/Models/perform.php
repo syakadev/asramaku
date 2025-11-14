@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,7 +16,13 @@ class perform extends Model
      * The attributes that are mass assignable.
      * @var array<int, string>
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'img',
+        'date',
+        'status',
+        'duty_schedule_id',
+        'user_id',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -55,8 +62,8 @@ class perform extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function dormFund()
+    public function schedule()
     {
-        return $this->belongsTo(DormFund::class, 'dorm_id', 'id');
+        return $this->belongsTo(DutySchedule::class, 'duty_schedule_id', 'id');
     }
 }

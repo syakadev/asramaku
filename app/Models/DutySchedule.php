@@ -15,7 +15,11 @@ class DutySchedule extends Model
      * The attributes that are mass assignable.
      * @var array<int, string>
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'duty_id',
+        'user_id',
+        'period',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -30,23 +34,23 @@ class DutySchedule extends Model
     |--------------------------------------------------------------------------
     */
 
-    // /**
-    //  * Get the parent that owns the DutySchedule
-    //  *
-    //  * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-    //  */
-    // public function parent(): BelongsTo
-    // {
-    //     return $this->belongsTo(Parent::class, 'foreign_key', 'owner_key');
-    // }
+    /**
+     * Get the user that owns the DutySchedule
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
-    // /**
-    //  * Get all of the children for the DutySchedule
-    //  *
-    //  * @return \Illuminate\Database\Eloquent\Relations\HasMany
-    //  */
-    // public function children(): HasMany
-    // {
-    //     return $this->hasMany(Child::class, 'foreign_key', 'local_key');
-    // }
+    /**
+     * Get the duty that owns the DutySchedule
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function duty(): BelongsTo
+    {
+        return $this->belongsTo(Duty::class);
+    }
 }

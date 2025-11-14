@@ -63,6 +63,13 @@
                     <span>Piket</span>
                 </a>
 
+                <a href="{{ route('dutySchedules.index') }}"
+                   class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition duration-200 {{ request()->routeIs('duty-schedules.*') ? 'bg-blue-900 border-r-4 border-yellow-400' : '' }}">
+                    <i class="fas fa-calendar-alt mr-3"></i>
+                    <span>Jadwal Piket</span>
+                </a>
+
+
                 <!-- Menu tambahan bisa ditambahkan di sini -->
                 <a href="#" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition duration-200">
                     <i class="fas fa-users mr-3"></i>

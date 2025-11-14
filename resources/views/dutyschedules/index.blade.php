@@ -31,7 +31,8 @@
                     <tr>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Seksi</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Penanggung Jawab</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Periode</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Mulai</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tanggal Selesai</th>
                         <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
                     </tr>
                 </thead>
@@ -40,7 +41,8 @@
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $dutySchedule->duty->section }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $dutySchedule->user->name }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $dutySchedule->period }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ \Carbon\Carbon::parse($dutySchedule->start_date)->format('d-m-Y') }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ \Carbon\Carbon::parse($dutySchedule->end_date)->format('d-m-Y') }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
                                 <a href="{{ route('dutySchedules.show', $dutySchedule) }}" class="text-blue-600 hover:text-blue-900">Lihat</a>
@@ -66,7 +68,8 @@
                     <div class="flex-1">
                         <p class="text-sm text-gray-600">Seksi: <span class="font-semibold text-gray-800">{{ $dutySchedule->duty->section }}</span></p>
                         <p class="text-sm text-gray-600 mt-1">Penanggung Jawab: <span class="font-semibold text-gray-800">{{ $dutySchedule->user->name }}</span></p>
-                        <p class="text-sm text-gray-600 mt-1">Periode: <span class="font-semibold text-gray-800">{{ $dutySchedule->period }}</span></p>
+                        <p class="text-sm text-gray-600 mt-1">Tanggal Mulai: <span class="font-semibold text-gray-800">{{ \Carbon\Carbon::parse($dutySchedule->start_date)->format('d-m-Y') }}</span></p>
+                        <p class="text-sm text-gray-600 mt-1">Tanggal Selesai: <span class="font-semibold text-gray-800">{{ \Carbon\Carbon::parse($dutySchedule->end_date)->format('d-m-Y') }}</span></p>
                     </div>
                     <div class="mt-4 flex justify-end space-x-3">
                         <a href="{{ route('dutySchedules.show', $dutySchedule) }}" class="text-sm text-blue-600 hover:text-blue-900">Lihat</a>

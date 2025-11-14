@@ -38,9 +38,14 @@
                 </select>
             </div>
 
+            <div class="mb-4">
+                <label for="start_date" class="block text-gray-700 text-sm font-bold mb-2">Tanggal Mulai</label>
+                <input type="date" name="start_date" id="start_date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{  \Carbon\Carbon::parse($dutySchedule->start_date)->format('Y-m-d') }}" required>
+            </div>
+
             <div class="mb-6">
-                <label for="period" class="block text-gray-700 text-sm font-bold mb-2">Periode</label>
-                <input type="text" name="period" id="period" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ $dutySchedule->period }}" required>
+                <label for="end_date" class="block text-gray-700 text-sm font-bold mb-2">Tanggal Selesai</label>
+                <input type="date" name="end_date" id="end_date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" value="{{ \Carbon\Carbon::parse($dutySchedule->end_date)->format('Y-m-d') }}" required>
             </div>
 
             <div class="flex items-center justify-between">

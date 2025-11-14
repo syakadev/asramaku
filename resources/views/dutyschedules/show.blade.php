@@ -20,9 +20,14 @@
             <p class="text-gray-800">{{ $dutySchedule->user->name }}</p>
         </div>
 
+        <div class="mb-4">
+            <label class="block text-gray-700 text-sm font-bold mb-2">Tanggal Mulai</label>
+            <p class="text-gray-800">{{ \Carbon\Carbon::parse($dutySchedule->start_date)->format('d-m-Y') }}</p>
+        </div>
+
         <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-bold mb-2">Periode</label>
-            <p class="text-gray-800">{{ $dutySchedule->period }}</p>
+            <label class="block text-gray-700 text-sm font-bold mb-2">Tanggal Selesai</label>
+            <p class="text-gray-800">{{ \Carbon\Carbon::parse($dutySchedule->end_date)->format('d-m-Y') }}</p>
         </div>
 
         <div class="flex items-center justify-between">

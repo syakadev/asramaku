@@ -12,7 +12,8 @@ class DutyScheduleController extends Controller
      */
     public function index()
     {
-        //
+        DutySchedule::all();
+        return view('dutySchedules.index');
     }
 
     /**
@@ -20,7 +21,7 @@ class DutyScheduleController extends Controller
      */
     public function create()
     {
-        //
+        return view('dutySchedules.create');
     }
 
     /**
@@ -28,7 +29,14 @@ class DutyScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'duty_id',
+            'user_id',
+            'period'
+        ]);
+
+        DutySchedule::create($request->all());
+        return redirect()->route('dutySchedules.index')->with('success', 'Data piket berhasil ditambahkan.');
     }
 
     /**
@@ -36,7 +44,7 @@ class DutyScheduleController extends Controller
      */
     public function show(DutySchedule $dutySchedule)
     {
-        //
+        return view('dutySchedules.show', compact('dutySchedule'));
     }
 
     /**
@@ -44,7 +52,7 @@ class DutyScheduleController extends Controller
      */
     public function edit(DutySchedule $dutySchedule)
     {
-        //
+        return view('dutySchedules.edit', compact('dutySchedule'));
     }
 
     /**
@@ -52,7 +60,15 @@ class DutyScheduleController extends Controller
      */
     public function update(Request $request, DutySchedule $dutySchedule)
     {
-        //
+        $request->validate([
+            'duty_id',
+            'user_id',
+            'period'
+        ]);
+
+        $dutySchedule->update($request->all());
+
+        return redirect('dutySchedules.index')->with('success', 'Data piket berhasil diubah.');
     }
 
     /**
@@ -60,6 +76,7 @@ class DutyScheduleController extends Controller
      */
     public function destroy(DutySchedule $dutySchedule)
     {
-        //
+        $dutySchedule->delete();
+        return redirect('dutySchedules.index')->with('success', 'Data piket berhasil dihapus.');
     }
 }

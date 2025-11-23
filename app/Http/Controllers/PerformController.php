@@ -14,8 +14,8 @@ class PerformController extends Controller
      */
     public function index()
     {
-        Perform::all();
-        return view('performs.index');
+        $performs = Perform::all();
+        return view('performs.index', compact('performs'));
     }
 
     /**
@@ -23,8 +23,8 @@ class PerformController extends Controller
      */
     public function create()
     {
-        DutySchedule::all();
-        User::all();
+        $dutySchedules = DutySchedule::all();
+        $users = User::all();
         return view('performs.create', compact('dutySchedules', 'users'));
     }
 
@@ -33,15 +33,20 @@ class PerformController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validatedData = $request->validate([
             'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'date' => 'required|date_format:Y-m-d',
-            'status' => 'required|in:belum dikerjakan,sudah dikerjakan',
+            'status' => 'required|in:dilaksanakan,tidak dilaksanakan',
             'duty_schedule_id' => 'required|integer',
             'user_id' => 'required|integer'
         ]);
 
-        perform::create($request->all());
+        if ($request->hasFile('img')) {
+            $path = $request->file('img')->store('images', 'public');
+            $validatedData['img'] = basename($path);
+        }
+
+        perform::create($validatedData);
 
         return redirect()->route('performs.index')->with('success', 'Data piket berhasil ditambahkan.');
     }
@@ -59,7 +64,9 @@ class PerformController extends Controller
      */
     public function edit(perform $perform)
     {
-        return view('performs.edit', compact('perform'));
+        $dutySchedules = DutySchedule::all();
+        $users = User::all();
+        return view('performs.edit', compact('perform', 'dutySchedules', 'users'));
     }
 
     /**

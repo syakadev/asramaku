@@ -75,6 +75,12 @@
                     <span>Absen Piket</span>
                 </a>
 
+                <a href="{{ route('lostitems.index') }}"
+                   class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition duration-200 {{ request()->routeIs('lostitems.*') ? 'bg-blue-900 border-r-4 border-yellow-400' : '' }}">
+                    <i class="fas fa-box-open mr-3"></i>
+                    <span>Barang Hilang</span>
+                </a>
+
 
 
                 <!-- Menu tambahan bisa ditambahkan di sini -->

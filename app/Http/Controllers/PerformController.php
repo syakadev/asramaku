@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DutySchedule;
 use App\Models\perform;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PerformController extends Controller
@@ -23,9 +24,10 @@ class PerformController extends Controller
      */
     public function create()
     {
-        $dutySchedules = DutySchedule::all();
-        $users = User::all();
-        return view('performs.create', compact('dutySchedules', 'users'));
+        $user = User::find(1);
+        $dutySchedules = $user->dutySchedules()->with('duty')->get();
+
+        return view('performs.create', compact('dutySchedules', 'user'));
     }
 
     /**
@@ -65,8 +67,8 @@ class PerformController extends Controller
     public function edit(perform $perform)
     {
         $dutySchedules = DutySchedule::all();
-        $users = User::all();
-        return view('performs.edit', compact('perform', 'dutySchedules', 'users'));
+        $user = User::find(1);
+        return view('performs.edit', compact('perform', 'dutySchedules', 'user'));
     }
 
     /**
@@ -74,6 +76,10 @@ class PerformController extends Controller
      */
     public function update(Request $request, perform $perform)
     {
+        if (Carbon::parse($perform->date)->isPast()) {
+            return redirect()->route('performs.index')->with('error', 'Tidak dapat mengubah data piket yang sudah lewat.');
+        }
+
         $request->validate([
             'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:20',
             'date' => 'nullable|date_format:Y-m-d',

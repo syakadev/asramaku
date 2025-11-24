@@ -35,7 +35,7 @@ class LostItemController extends Controller
             'description' => 'nullable|string',
             'date_found' => 'required|date',
             'date_taken' => 'nullable|date',
-            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'status' => 'required|in:found,taken',
             'reporter_id' => 'required|integer',
             'user_id' => 'nullable|integer',
@@ -73,11 +73,7 @@ class LostItemController extends Controller
         public function update(Request $request, LostItem $lostitem)
         {
             $validatedData = $request->validate([
-                'name' => 'required|string|max:255',
-                'description' => 'nullable|string',
-                'date_found' => 'required|date',
                 'date_taken' => 'nullable|date',
-                'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                 'status' => 'required|in:found,taken',
                 'reporter_id' => 'required|integer',
                 'user_id' => 'nullable|integer',
@@ -94,7 +90,7 @@ class LostItemController extends Controller
 
             $lostitem->update($validatedData);
 
-            return redirect()->route('lostitems.index')->with('success', 'Data barang hilang berhasil diubah.');
+            return redirect()->route('lostitems.index')->with('success', 'Barang sudah diambil.');
         }
 
         /**

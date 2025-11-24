@@ -3,8 +3,9 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return redirect()->route('dormfunds.index');
+})->name('home');
+
 
 use App\Http\Controllers\DormFundController;
 use App\Http\Controllers\PerformController;

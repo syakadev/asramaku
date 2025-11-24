@@ -4,9 +4,27 @@
 <div class="container mx-auto px-4 py-6">
     <h1 class="text-2xl font-bold text-gray-800 mb-6">Tambah Barang Hilang</h1>
 
+
+    @if ($errors->any())
+            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
     <div class="bg-white rounded-lg shadow p-6">
+
         <form action="{{ route('lostitems.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+
+            {{-- hidden input --}}
+            <input type="hidden" id="user_id" name="reporter_id"
+                    {{-- value="{{ Auth::user()->id }}" --}}
+                    value="1"
+                    >
+            <input type="hidden" name="status" value="found">
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
@@ -23,7 +41,7 @@
                     <label for="date_found" class="block text-sm font-medium text-gray-700 mb-2">Tanggal Ditemukan *</label>
                     <input type="date" name="date_found" id="date_found" required
                         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        value="{{ old('date_found') }}">
+                        value="{{ old('date_found', date('Y-m-d')) }}">
                     @error('date_found')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
@@ -43,28 +61,6 @@
                     <input type="file" name="img" id="img" accept="image/*"
                         class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
                     @error('img')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="status" class="block text-sm font-medium text-gray-700 mb-2">Status *</label>
-                    <select name="status" id="status" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
-                        <option value="found" {{ old('status') == 'found' ? 'selected' : '' }}>Ditemukan</option>
-                        <option value="taken" {{ old('status') == 'taken' ? 'selected' : '' }}>Diambil</option>
-                    </select>
-                    @error('status')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <div>
-                    <label for="reporter_id" class="block text-sm font-medium text-gray-700 mb-2">ID Pelapor *</label>
-                    <input type="number" name="reporter_id" id="reporter_id" required
-                        class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        value="{{ old('reporter_id') }}">
-                    @error('reporter_id')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>

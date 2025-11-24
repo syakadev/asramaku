@@ -63,7 +63,7 @@
                 Kembali
             </a>
             <a href="{{ route('lostitems.edit', $lostitem) }}" class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition duration-200 text-center">
-                Edit
+                Ambil
             </a>
             <form action="{{ route('lostitems.destroy', $lostitem) }}" method="POST">
                 @csrf

@@ -63,7 +63,7 @@
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
                                 <a href="{{ route('lostitems.show', $item) }}" class="text-blue-600 hover:text-blue-900">Lihat</a>
-                                <a href="{{ route('lostitems.edit', $item) }}" class="text-yellow-600 hover:text-yellow-900">Ubah</a>
+                                <a href="{{ route('lostitems.edit', $item) }}" class="text-yellow-600 hover:text-yellow-900">Ambil</a>
                                 <form action="{{ route('lostitems.destroy', $item) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data ini?');">
                                     @csrf
                                     @method('DELETE')

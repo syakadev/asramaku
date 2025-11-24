@@ -15,7 +15,16 @@ class LostItem extends Model
      * The attributes that are mass assignable.
      * @var array<int, string>
      */
-    protected $fillable = [];
+    protected $fillable = [
+        'name',
+        'description',
+        'date_found',
+        'date_taken',
+        'img',
+        'status',
+        'reporter_id',
+        'user_id'
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -49,4 +58,13 @@ class LostItem extends Model
     // {
     //     return $this->hasMany(Child::class, 'foreign_key', 'local_key');
     // }
+    public function reporter()
+    {
+        return $this->belongsTo(User::class, 'reporter_id', 'id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 }

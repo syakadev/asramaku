@@ -62,7 +62,7 @@ class perform extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function schedule()
+    public function dutySchedule()
     {
         return $this->belongsTo(DutySchedule::class, 'duty_schedule_id', 'id');
     }

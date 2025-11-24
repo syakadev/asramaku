@@ -47,4 +47,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function dutySchedules()
+    {
+        return $this->hasMany(DutySchedule::class);
+    }
 }

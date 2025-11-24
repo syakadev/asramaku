@@ -16,6 +16,20 @@
         </div>
     @endif
 
+    @if(session('error'))
+        <!-- Alpine.js controlled alert -->
+        <div x-data="{ show: true }"
+             x-init="setTimeout(() => show = false, 5000)"
+             x-show="show"
+             x-transition:leave="transition ease-in duration-300"
+             x-transition:leave-start="opacity-100"
+             x-transition:leave-end="opacity-0"
+             class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4 flex justify-between items-center">
+            <span>{{ session('error') }}</span>
+            <button @click="show = false" class="text-red-700 hover:text-red-900">&times;</button>
+        </div>
+    @endif
+
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-800">Data Penilaian Kinerja</h1>
         <a href="{{ route('performs.create') }}" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-200">
@@ -56,8 +70,8 @@
                                 {{ ucfirst($perform->status) }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $perform->duty_schedule_id }}</td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $perform->user_id }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $perform->dutyschedule->duty->section }}</td>
+                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $perform->user->name }}</td>
                         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                             <div class="flex space-x-2">
                                 <a href="{{ route('performs.show', $perform) }}" class="text-blue-600 hover:text-blue-900">Lihat</a>

@@ -33,11 +33,9 @@
 
                 <!-- Jadwal Piket -->
                 <div>
-                    <label for="duty_schedule_id" class="block text-sm font-medium text-gray-700 mb-1">Jadwal Piket</label>
+                    <h3 for="duty_schedule_id" class="block text-sm font-medium text-gray-700 mb-1">Jadwal Piket</h3>
                     <p>
-                            @foreach($dutySchedules as $schedule)
-                            <p>{{ $schedule->duty->section }}</p>
-                            @endforeach
+                            {{ $dutySchedules->first()->duty->section }}
                     </p>
                 </div>
 

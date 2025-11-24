@@ -25,7 +25,7 @@ class PerformController extends Controller
     public function create()
     {
         $user = User::find(1);
-        $dutySchedules = $user->dutySchedules()->with('duty')->get();
+        $dutySchedules = $user->dutySchedules()->with('duty')->first();
 
         return view('performs.create', compact('dutySchedules', 'user'));
     }
@@ -66,8 +66,8 @@ class PerformController extends Controller
      */
     public function edit(perform $perform)
     {
-        $dutySchedules = DutySchedule::all();
         $user = User::find(1);
+        $dutySchedules = $user->dutySchedules()->with('duty')->first();
         return view('performs.edit', compact('perform', 'dutySchedules', 'user'));
     }
 

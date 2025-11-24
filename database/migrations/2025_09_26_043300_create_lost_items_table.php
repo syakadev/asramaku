@@ -18,7 +18,7 @@ return new class extends Migration
             $table->date('date_found');
             $table->date('date_taken')->nullable();
             $table->string('img')->nullable(); // Path gambar
-            $table->string('status'); // Misal: 'tersedia', 'diambil'
+            $table->enum('status', ['found', 'taken']); // Misal: 'found', 'taken'
             $table->foreignId('reporter_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null'); // User yang mengambil
             $table->timestamps();

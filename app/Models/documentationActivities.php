@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Activity extends Model
+class documentationActivities extends Model
 {
     use HasFactory;
 
@@ -16,13 +16,8 @@ class Activity extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
-        'description',
-        'location',
-        'type',
         'img',
-        'date',
-        'organizer_id',
+        'activities_id'
     ];
 
     /**
@@ -38,29 +33,18 @@ class Activity extends Model
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * Get the user that owns the Activity
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function organizer(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'organizer_id');
-    }
-
-    /**
-     * Get all of the documentations for the Activity
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function documentations(): HasMany
-    {
-        return $this->hasMany(documentationActivities::class, 'activities_id', 'id');
-    }
-
+    // /**
+    //  * Get the parent that owns the documentationActivities
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    //  */
+    // public function parent(): BelongsTo
+    // {
+    //     return $this->belongsTo(Parent::class, 'foreign_key', 'owner_key');
+    // }
 
     // /**
-    //  * Get all of the children for the Activity
+    //  * Get all of the children for the documentationActivities
     //  *
     //  * @return \Illuminate\Database\Eloquent\Relations\HasMany
     //  */
@@ -68,4 +52,14 @@ class Activity extends Model
     // {
     //     return $this->hasMany(Child::class, 'foreign_key', 'local_key');
     // }
+    /**
+     * Get the activity that owns the documentationActivities
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function activity(): BelongsTo
+    {
+        return $this->belongsTo(Activity::class, 'activities_id', 'id');
+    }
+
 }

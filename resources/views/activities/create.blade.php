@@ -17,6 +17,12 @@
 
         <form action="{{ route('activities.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            {{-- hidden input --}}
+            <input type="hidden" name="organizer_id"
+            {{-- value="{{ Auth::id() }}" --}}
+            value="1"
+            >
+
             <div class="space-y-6">
                 <!-- Nama Kegiatan -->
                 <div>
@@ -51,33 +57,6 @@
                     </select>
                 </div>
 
-                <!-- Penyelenggara -->
-                <div>
-                    <label for="organizer_id" class="block text-sm font-medium text-gray-700 mb-1">Penyelenggara</label>
-                    <select id="organizer_id" name="organizer_id" class="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md" required>
-                        @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ old('organizer_id') == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <!-- Gambar -->
-                <div>
-                    <label for="img" class="block text-sm font-medium text-gray-700 mb-1">Gambar (Dokumentasi)</label>
-                    <div class="mt-1 flex items-center">
-                        <input type="file" id="img" name="img" class="block w-full text-sm text-gray-500
-                            file:mr-4 file:py-2 file:px-4
-                            file:rounded-full file:border-0
-                            file:text-sm file:font-semibold
-                            file:bg-indigo-50 file:text-indigo-700
-                            hover:file:bg-indigo-100"
-                        >
-                    </div>
-                    <p class="mt-2 text-xs text-gray-500">PNG, JPG, GIF up to 2MB.</p>
-                    <div style="margin-top: 10px;">
-                        <img id="preview" src="" alt="Preview Gambar" width="200" style="display: none;">
-                    </div>
-                </div>
             </div>
 
             <!-- Tombol Aksi -->
@@ -92,15 +71,4 @@
         </form>
     </div>
 </div>
-<script>
-    document.getElementById('img').addEventListener('change', function(event) {
-        let file = event.target.files[0];
-        let preview = document.getElementById('preview');
-
-        if (file) {
-            preview.src = URL.createObjectURL(file);
-            preview.style.display = "block";
-        }
-    });
-</script>
 @endsection

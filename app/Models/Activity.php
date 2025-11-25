@@ -15,15 +15,7 @@ class Activity extends Model
      * The attributes that are mass assignable.
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'description',
-        'location',
-        'type',
-        'img',
-        'date',
-        'organizer_id',
-    ];
+    protected $fillable = [];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -38,26 +30,15 @@ class Activity extends Model
     |--------------------------------------------------------------------------
     */
 
-    /**
-     * Get the user that owns the Activity
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function organizer(): BelongsTo
-    {
-        return $this->belongsTo(User::class, 'organizer_id');
-    }
-
-    /**
-     * Get all of the documentations for the Activity
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function documentations(): HasMany
-    {
-        return $this->hasMany(documentationActivities::class, 'activities_id', 'id');
-    }
-
+    // /**
+    //  * Get the parent that owns the Activity
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+    //  */
+    // public function parent(): BelongsTo
+    // {
+    //     return $this->belongsTo(Parent::class, 'foreign_key', 'owner_key');
+    // }
 
     // /**
     //  * Get all of the children for the Activity

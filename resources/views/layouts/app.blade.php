@@ -89,7 +89,7 @@
                     <span>Data Penghuni</span>
                 </a>
 
-                <a href="#" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition duration-200">
+                <a href="{{ route('activities.index') }}" class="flex items-center px-4 py-3 text-white hover:bg-blue-700 transition duration-200">
                     <i class="fas fa-chart-bar mr-3"></i>
                     <span>Laporan</span>
                 </a>

@@ -39,13 +39,7 @@ class ActivityController extends Controller
             'date' => 'required|date',
             'type' => 'required|in:0,1',
             'organizer_id' => 'required|exists:users,id',
-            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
-        if ($request->hasFile('img')) {
-            $path = $request->file('img')->store('images', 'public');
-            $validatedData['img'] = basename($path);
-        }
 
         Activity::create($validatedData);
 
@@ -81,17 +75,7 @@ class ActivityController extends Controller
             'date' => 'required|date',
             'type' => 'required|in:0,1',
             'organizer_id' => 'required|exists:users,id',
-            'img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
-
-            if ($request->hasFile('img')) {
-                $path = $request->file('img')->store('images', 'public');
-                $validatedData['img'] = basename($path);
-
-                if ($activity->img) {
-                    Storage::disk('public')->delete('images/' . $activity->img);
-                }
-            }
 
         $activity->update($validatedData);
 
@@ -103,9 +87,6 @@ class ActivityController extends Controller
      */
     public function destroy(Activity $activity)
     {
-        if ($activity->img) {
-            Storage::delete('public/images/' . $activity->img);
-        }
         $activity->delete();
 
         return redirect()->route('activities.index')->with('success', 'Kegiatan berhasil dihapus.');

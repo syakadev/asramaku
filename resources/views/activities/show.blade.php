@@ -59,6 +59,18 @@
                         <dt class="text-sm font-medium text-gray-500">Diperbarui pada</dt>
                         <dd class="mt-1 text-sm text-gray-900">{{ $activity->updated_at->format('d F Y, H:i') }}</dd>
                     </div>
+                    <div class="md:col-span-1">
+                        <dt class="mt-1 text-sm text-blue-700">
+                            <a href="{{ route('documentations.index', $activity) }}">
+                                Dokumentasi {{ $activity->name }}
+                            </a>
+                        </dt>
+                    </div>
+                    <div class="md:col-span-1">
+                        <dt class="mt-1 text-sm text-blue-700">
+                            <a href="{{ route('attendances.index') }}">Daftar Hadir</a>
+                        </dt>
+                    </div>
                 </dl>
             </div>
         </div>

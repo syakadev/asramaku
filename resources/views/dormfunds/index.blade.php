@@ -12,7 +12,7 @@
         </div>
     @endif
         <!-- Chart Section -->
-    <div class="bg-white rounded-xl shadow-sm p-6 mb-8 max-w-full overflow-hidden">
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-8 max-w-full">
         <div class="flex justify-between items-center mb-6">
             <h3 class="text-lg font-semibold text-gray-800">Grafik Pemasukan & Pengeluaran</h3>
         </div>
@@ -23,7 +23,7 @@
 
 
         <!-- Filter Section -->
-    <div class="bg-white rounded-xl shadow-sm p-6 mb-8 max-w-full overflow-hidden">
+    <div class="bg-white rounded-xl shadow-sm p-6 mb-8 max-w-full">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <h3 class="text-lg font-semibold text-gray-800 truncate">Filter Data</h3>
 
@@ -83,7 +83,7 @@
     <!-- Statistik Cards -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 max-w-full">
         <!-- Total Saldo -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-blue-500 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-blue-500">
             <div class="flex items-center justify-between">
                 <div class="min-w-0 flex-1">
                     <p class="text-sm font-medium text-gray-600 truncate">Total Saldo</p>
@@ -101,7 +101,7 @@
         </div>
 
         <!-- Total Pemasukan -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-green-500 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-green-500">
             <div class="flex items-center justify-between">
                 <div class="min-w-0 flex-1">
                     <p class="text-sm font-medium text-gray-600 truncate">Total Pemasukan</p>
@@ -119,7 +119,7 @@
         </div>
 
         <!-- Total Pengeluaran -->
-        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-red-500 overflow-hidden">
+        <div class="bg-white rounded-xl shadow-sm p-6 border-l-4 border-red-500">
             <div class="flex items-center justify-between">
                 <div class="min-w-0 flex-1">
                     <p class="text-sm font-medium text-gray-600 truncate">Total Pengeluaran</p>
@@ -148,7 +148,7 @@
     </div>
 
     <!-- Desktop Table -->
-    <div class="hidden md:block bg-white rounded-xl shadow-sm overflow-hidden max-w-full">
+    <div class="hidden md:block bg-white rounded-xl shadow-sm max-w-full">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">
@@ -191,7 +191,7 @@
     </div>
 
     <!-- Mobile Table -->
-    <div class="md:hidden bg-white rounded-xl shadow-sm overflow-hidden max-w-full">
+    <div class="md:hidden bg-white rounded-xl shadow-sm max-w-full">
         <div class="overflow-x-auto">
             <table class="min-w-full divide-y divide-gray-200">
                 <thead class="bg-gray-50">

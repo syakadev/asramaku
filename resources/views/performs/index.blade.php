@@ -56,8 +56,9 @@
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if($perform->img)
-                                <a href="{{ asset('storage/images/' . $perform->img) }}" data-toggle="image-modal">
-                                    <img src="{{ asset('storage/images/' . $perform->img) }}" alt="Gambar Kinerja" class="h-12 w-12 object-cover rounded cursor-pointer hover:opacity-75 transition">
+                                <a href="{{ asset('storage/images/performs/' . $perform->img) }}" data-toggle="image-modal">
+                                    <img src="{{ asset('storage/images/performs/' . $perform->img) }}" alt="Gambar Kinerja"
+                                    class="h-12 w-12 object-cover rounded cursor-pointer hover:opacity-75 transition">
                                 </a>
                             @else
                                 <span class="text-gray-400">-</span>

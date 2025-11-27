@@ -12,6 +12,8 @@
     <!-- Font Awesome untuk ikon -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
         .sidebar {
             transition: all 0.3s ease;
@@ -109,9 +111,9 @@
         </div>
 
         <!-- Main Content -->
-        <div id="main-content" class="flex-1 md:ml-64">
+        <div id="main-content" class="flex-1 md:ml-64 overflow-y-auto">
             <!-- Header -->
-            <header class="bg-white shadow-sm">
+            <header class="bg-white shadow-sm sticky top-0 z-9">
                 <div class="flex items-center justify-between px-6 py-4">
                     <div class="flex items-center">
                         <button id="sidebar-toggle" class="text-gray-600 hover:text-gray-900 mr-4">

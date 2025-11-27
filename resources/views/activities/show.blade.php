@@ -61,7 +61,7 @@
                     </div>
                     <div class="md:col-span-1">
                         <dt class="mt-1 text-sm text-blue-700">
-                            <a href="{{ route('documentations.index', $activity) }}">
+                            <a href="{{ route('documentations', $activity) }}">
                                 Dokumentasi {{ $activity->name }}
                             </a>
                         </dt>

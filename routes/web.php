@@ -27,3 +27,5 @@ Route::resource('duties', DutyController::class);
 Route::resource('dutySchedules', DutyScheduleController::class);
 Route::resource('lostitems', LostItemController::class);
 
+Route::get('/documentation/{activity}', [DocumentationActivitiesController::class, 'index'])->name('documentations');
+

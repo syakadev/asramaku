@@ -44,7 +44,7 @@ class PerformController extends Controller
         ]);
 
         if ($request->hasFile('img')) {
-            $path = $request->file('img')->store('images', 'public');
+            $path = $request->file('img')->store('images/performs', 'public');
             $validatedData['img'] = basename($path);
         }
 

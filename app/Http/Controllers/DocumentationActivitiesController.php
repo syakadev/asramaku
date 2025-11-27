@@ -14,8 +14,7 @@ class DocumentationActivitiesController extends Controller
      */
     public function index( Activity $activity)
     {
-        $documentations = $activity->documentations;
-        return view('documentations.index', compact('documentations', 'activity'));
+        return view('documentations.index', compact( 'activity'));
     }
 
     /**
@@ -32,20 +31,22 @@ class DocumentationActivitiesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $validateData = $request->validate([
             'img' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'activities_id' => 'required|exists:activities,id',
         ]);
 
-        $imageName = time().'.'.$request->img->extension();
-        $request->img->storeAs('public/documentations', $imageName);
+            if ($request->hasFile('img')) {
+            $path = $request->file('img')->store('images/documentations', 'public');
+            $validateData['img'] = basename($path);
+        }
 
-        documentationActivities::create([
-            'img' => $imageName,
-            'activities_id' => $request->activities_id,
-        ]);
+        // Gunakan $validatedData['activities_id'] di sini
+        $id = $validateData['activities_id'];
 
-        return redirect()->route('documentations.index')
+        documentationActivities::create($validateData);
+
+        return redirect()->route('documentations',  $id)
             ->with('success', 'Documentation created successfully.');
     }
 
@@ -54,10 +55,11 @@ class DocumentationActivitiesController extends Controller
      */
     public function destroy(documentationActivities $documentation)
     {
+        $id = $documentation->activities_id;
         Storage::delete('public/documentations/' . $documentation->img);
         $documentation->delete();
 
-        return redirect()->route('documentations.index')
+        return redirect()->route('documentations', $id)
             ->with('success', 'Documentation deleted successfully.');
     }
 }
